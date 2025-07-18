@@ -1,26 +1,32 @@
 'use client';
+import { useEffect } from 'react';
 import { Ticket } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 
-// Add CSS for background pattern
-const backgroundPatternCSS = `
-  .bg-grid-pattern {
-    background-image: 
-      linear-gradient(rgba(6, 182, 212, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
-    background-size: 50px 50px;
-  }
-`;
-
-if (typeof document !== 'undefined') {
-  const style = document.createElement('style');
-  style.textContent = backgroundPatternCSS;
-  document.head.appendChild(style);
-}
-
 export const HeroSection = () => {
   const router = useRouter();
+
+  useEffect(() => {
+    // Add CSS for background pattern
+    const backgroundPatternCSS = `
+      .bg-grid-pattern {
+        background-image: 
+          linear-gradient(rgba(6, 182, 212, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+        background-size: 50px 50px;
+      }
+    `;
+
+    const style = document.createElement('style');
+    style.textContent = backgroundPatternCSS;
+    document.head.appendChild(style);
+
+    return () => {
+      // Cleanup: remove style on unmount
+      document.head.removeChild(style);
+    };
+  }, []);
 
   const handleViewRaffles = () => {
     // Check if user is authenticated - for now just navigate to rifas

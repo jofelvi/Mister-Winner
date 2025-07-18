@@ -10,8 +10,11 @@ export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    
     const unsubscribe = onAuthStateChanged(auth, async user => {
       setUser(user);
 
@@ -84,7 +87,7 @@ export const useAuth = () => {
   return {
     user,
     userProfile,
-    loading,
+    loading: loading || !mounted,
     login,
     register,
     logout,
