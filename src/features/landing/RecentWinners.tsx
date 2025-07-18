@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Winner } from '@/types';
-import Card from '@/components/ui/Card';
+import { Card } from '@/components/ui/card';
 import { Award, Calendar, Crown, Hash, Sparkles, Trophy } from 'lucide-react';
 import winnerService from '@/services/winnerService';
 import { Loader } from '@/components/shared/Loader/Loader';

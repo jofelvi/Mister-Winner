@@ -252,8 +252,7 @@ export const ActiveRaffles = () => {
 
                   {/* Auto-play toggle */}
                   <Button
-                    variant="outline"
-                    size="sm"
+                    variant="ghost"
                     onClick={toggleAutoPlay}
                     className={`flex items-center gap-2 text-sm border-2 transition-all duration-200 ${
                       isAutoPlaying

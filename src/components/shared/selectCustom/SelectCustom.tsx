@@ -1,9 +1,9 @@
 import React, { forwardRef } from 'react';
 import {
-  FieldValues,
-  UseFormRegister,
-  Path,
   FieldError,
+  FieldValues,
+  Path,
+  UseFormRegister,
 } from 'react-hook-form';
 import FormFieldError from '@/components/shared/formFieldError/FormFieldError';
 import { AlertCircle, ChevronDown } from 'lucide-react';

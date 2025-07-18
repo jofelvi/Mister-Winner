@@ -2,8 +2,8 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Raffle } from '@/types';
-import Card from '@/components/ui/Card';
-import { Calendar, ChevronRight, Gift, Users, ChevronLeft } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import { Calendar, ChevronLeft, ChevronRight, Gift, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { formatFirebaseDate } from '@/utils/dateUtils';
 import Image from 'next/image';
@@ -23,11 +23,13 @@ export const RaffleCard = ({ raffle }: { raffle: Raffle }) => {
   const hasMultipleImages = prizesWithImages.length > 1;
 
   const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % prizesWithImages.length);
+    setCurrentImageIndex(prev => (prev + 1) % prizesWithImages.length);
   };
 
   const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + prizesWithImages.length) % prizesWithImages.length);
+    setCurrentImageIndex(
+      prev => (prev - 1 + prizesWithImages.length) % prizesWithImages.length
+    );
   };
 
   return (
@@ -44,7 +46,7 @@ export const RaffleCard = ({ raffle }: { raffle: Raffle }) => {
                 fill
                 className="object-cover group-hover:scale-110 transition-transform duration-500"
               />
-              
+
               {/* Prize position indicator */}
               <div className="absolute top-3 left-3">
                 <div className="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center shadow-lg">
@@ -53,7 +55,7 @@ export const RaffleCard = ({ raffle }: { raffle: Raffle }) => {
                   </span>
                 </div>
               </div>
-              
+
               {/* Prize name overlay */}
               <div className="absolute bottom-3 left-3 right-3">
                 <div className="bg-black/60 backdrop-blur-sm rounded-lg px-3 py-2">
@@ -61,7 +63,10 @@ export const RaffleCard = ({ raffle }: { raffle: Raffle }) => {
                     {prizesWithImages[currentImageIndex]?.name}
                   </p>
                   <p className="text-white/80 text-xs">
-                    ${prizesWithImages[currentImageIndex]?.amount.toLocaleString()}
+                    $
+                    {prizesWithImages[
+                      currentImageIndex
+                    ]?.amount.toLocaleString()}
                   </p>
                 </div>
               </div>
@@ -71,7 +76,7 @@ export const RaffleCard = ({ raffle }: { raffle: Raffle }) => {
             {hasMultipleImages && (
               <>
                 <button
-                  onClick={(e) => {
+                  onClick={e => {
                     e.stopPropagation();
                     prevImage();
                   }}
@@ -79,9 +84,9 @@ export const RaffleCard = ({ raffle }: { raffle: Raffle }) => {
                 >
                   <ChevronLeft className="w-4 h-4 text-gray-800" />
                 </button>
-                
+
                 <button
-                  onClick={(e) => {
+                  onClick={e => {
                     e.stopPropagation();
                     nextImage();
                   }}
@@ -98,7 +103,7 @@ export const RaffleCard = ({ raffle }: { raffle: Raffle }) => {
                 {prizesWithImages.map((_, index) => (
                   <button
                     key={index}
-                    onClick={(e) => {
+                    onClick={e => {
                       e.stopPropagation();
                       setCurrentImageIndex(index);
                     }}

@@ -14,19 +14,19 @@ import { formatFirebaseDate } from '@/utils/dateUtils';
 import winnerService from '@/services/winnerService';
 import { Winner } from '@/types';
 import {
-  Trophy,
-  Crown,
-  Award,
-  Star,
-  Search,
-  Filter,
-  Calendar,
-  Hash,
-  DollarSign,
-  User,
-  Gift,
   ArrowLeft,
+  Award,
+  Calendar,
+  Crown,
+  DollarSign,
+  Filter,
+  Gift,
+  Hash,
+  Search,
   Sparkles,
+  Star,
+  Trophy,
+  User,
 } from 'lucide-react';
 
 export default function GanadoresPage() {
@@ -42,8 +42,9 @@ export default function GanadoresPage() {
         setLoading(true);
         const allWinners = await winnerService.getAll();
         // Sort by creation date, most recent first
-        const sortedWinners = allWinners.sort((a, b) => 
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        const sortedWinners = allWinners.sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
         setWinners(sortedWinners);
       } catch (error) {
@@ -57,14 +58,15 @@ export default function GanadoresPage() {
   }, []);
 
   const filteredWinners = winners.filter(winner => {
-    const matchesSearch = 
+    const matchesSearch =
       winner.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       winner.raffleTitle?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       winner.winningNumber.includes(searchTerm);
-    
-    const matchesPosition = positionFilter === 'all' || 
+
+    const matchesPosition =
+      positionFilter === 'all' ||
       winner.prizePosition.toString() === positionFilter;
-    
+
     return matchesSearch && matchesPosition;
   });
 
@@ -88,28 +90,28 @@ export default function GanadoresPage() {
           bg: 'from-amber-400 to-yellow-500',
           text: 'text-amber-600',
           badge: 'bg-amber-100 text-amber-800 border-amber-200',
-          card: 'border-amber-200 bg-gradient-to-br from-amber-50 to-yellow-50'
+          card: 'border-amber-200 bg-gradient-to-br from-amber-50 to-yellow-50',
         };
       case 2:
         return {
           bg: 'from-gray-400 to-slate-500',
           text: 'text-gray-600',
           badge: 'bg-gray-100 text-gray-800 border-gray-200',
-          card: 'border-gray-200 bg-gradient-to-br from-gray-50 to-slate-50'
+          card: 'border-gray-200 bg-gradient-to-br from-gray-50 to-slate-50',
         };
       case 3:
         return {
           bg: 'from-orange-400 to-amber-500',
           text: 'text-orange-600',
           badge: 'bg-orange-100 text-orange-800 border-orange-200',
-          card: 'border-orange-200 bg-gradient-to-br from-orange-50 to-amber-50'
+          card: 'border-orange-200 bg-gradient-to-br from-orange-50 to-amber-50',
         };
       default:
         return {
           bg: 'from-purple-400 to-indigo-500',
           text: 'text-purple-600',
           badge: 'bg-purple-100 text-purple-800 border-purple-200',
-          card: 'border-purple-200 bg-gradient-to-br from-purple-50 to-indigo-50'
+          card: 'border-purple-200 bg-gradient-to-br from-purple-50 to-indigo-50',
         };
     }
   };
@@ -118,9 +120,11 @@ export default function GanadoresPage() {
     totalWinners: winners.length,
     firstPlaceWinners: winners.filter(w => w.prizePosition === 1).length,
     totalPrizeValue: winners.reduce((sum, w) => sum + (w.prizeAmount || 0), 0),
-    averagePrize: winners.length > 0 
-      ? winners.reduce((sum, w) => sum + (w.prizeAmount || 0), 0) / winners.length 
-      : 0,
+    averagePrize:
+      winners.length > 0
+        ? winners.reduce((sum, w) => sum + (w.prizeAmount || 0), 0) /
+          winners.length
+        : 0,
   };
 
   if (loading) {
@@ -136,11 +140,7 @@ export default function GanadoresPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={() => router.back()}
-          >
+          <Button variant="outline" size="sm" onClick={() => router.back()}>
             <ArrowLeft className="w-4 h-4 mr-2" />
             Volver
           </Button>
@@ -166,8 +166,12 @@ export default function GanadoresPage() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Total Ganadores</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.totalWinners}</p>
+                <p className="text-sm font-medium text-gray-600">
+                  Total Ganadores
+                </p>
+                <p className="text-2xl font-bold text-gray-900">
+                  {stats.totalWinners}
+                </p>
               </div>
               <Trophy className="w-8 h-8 text-amber-600" />
             </div>
@@ -178,8 +182,12 @@ export default function GanadoresPage() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Primeros Lugares</p>
-                <p className="text-2xl font-bold text-yellow-600">{stats.firstPlaceWinners}</p>
+                <p className="text-sm font-medium text-gray-600">
+                  Primeros Lugares
+                </p>
+                <p className="text-2xl font-bold text-yellow-600">
+                  {stats.firstPlaceWinners}
+                </p>
               </div>
               <Crown className="w-8 h-8 text-yellow-600" />
             </div>
@@ -190,7 +198,9 @@ export default function GanadoresPage() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Premios Entregados</p>
+                <p className="text-sm font-medium text-gray-600">
+                  Premios Entregados
+                </p>
                 <p className="text-2xl font-bold text-green-600">
                   ${stats.totalPrizeValue.toLocaleString()}
                 </p>
@@ -204,7 +214,9 @@ export default function GanadoresPage() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Premio Promedio</p>
+                <p className="text-sm font-medium text-gray-600">
+                  Premio Promedio
+                </p>
                 <p className="text-2xl font-bold text-purple-600">
                   ${Math.round(stats.averagePrize).toLocaleString()}
                 </p>
@@ -251,7 +263,7 @@ export default function GanadoresPage() {
               No se encontraron ganadores
             </h3>
             <p className="text-gray-600 mb-4">
-              {winners.length === 0 
+              {winners.length === 0
                 ? 'Aún no hay ganadores registrados.'
                 : 'Intenta ajustar los filtros de búsqueda.'}
             </p>
@@ -261,7 +273,7 @@ export default function GanadoresPage() {
             </Button>
           </div>
         ) : (
-          filteredWinners.map((winner) => {
+          filteredWinners.map(winner => {
             const colors = getPrizeColors(winner.prizePosition);
             return (
               <Card
@@ -270,7 +282,9 @@ export default function GanadoresPage() {
               >
                 <CardHeader className="pb-4">
                   <div className="flex items-center justify-between mb-2">
-                    <div className={`flex items-center gap-1 px-3 py-1 rounded-full border text-sm font-bold ${colors.badge}`}>
+                    <div
+                      className={`flex items-center gap-1 px-3 py-1 rounded-full border text-sm font-bold ${colors.badge}`}
+                    >
                       {getPrizeIcon(winner.prizePosition)}
                       <span>{winner.prizePosition}° Lugar</span>
                     </div>
@@ -325,7 +339,9 @@ export default function GanadoresPage() {
                       <div className="flex items-center gap-2">
                         <Calendar className="w-4 h-4 text-gray-500" />
                         <div>
-                          <p className="text-sm text-gray-500">Fecha del Sorteo</p>
+                          <p className="text-sm text-gray-500">
+                            Fecha del Sorteo
+                          </p>
                           <p className="font-medium text-gray-900">
                             {formatFirebaseDate(winner.drawDate)}
                           </p>
@@ -363,20 +379,21 @@ export default function GanadoresPage() {
                 ¡Tú podrías ser el próximo ganador!
               </h3>
               <p className="text-cyan-100 mb-6 max-w-2xl mx-auto">
-                Únete a los {stats.totalWinners} ganadores que ya han disfrutado de increíbles premios. 
-                Participa en nuestras rifas y ten la oportunidad de ganar.
+                Únete a los {stats.totalWinners} ganadores que ya han disfrutado
+                de increíbles premios. Participa en nuestras rifas y ten la
+                oportunidad de ganar.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="bg-white text-cyan-600 hover:bg-gray-50 border-white"
                   onClick={() => router.push('/rifas')}
                 >
                   <Trophy className="w-4 h-4 mr-2" />
                   Ver Rifas Activas
                 </Button>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="bg-transparent text-white border-white hover:bg-white/10"
                   onClick={() => router.push('/dashboard')}
                 >

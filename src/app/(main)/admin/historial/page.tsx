@@ -3,12 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/components/shared/card/card';
+import { Card, CardContent } from '@/components/shared/card/card';
 import { Button } from '@/components/shared/button/Button';
 import { Loader } from '@/components/shared/Loader/Loader';
 import { Raffle } from '@/types';
@@ -16,22 +11,22 @@ import { formatFirebaseDate } from '@/utils/dateUtils';
 import raffleService from '@/services/raffleService';
 import winnerService from '@/services/winnerService';
 import {
-  Search,
-  Filter,
-  Download,
-  Eye,
-  Edit3,
-  Trophy,
-  Users,
-  DollarSign,
-  Calendar,
-  Clock,
-  CheckCircle,
-  XCircle,
   AlertCircle,
   BarChart3,
-  TrendingUp,
+  Calendar,
+  CheckCircle,
+  Clock,
+  DollarSign,
+  Download,
+  Edit3,
+  Eye,
   FileText,
+  Filter,
+  Search,
+  TrendingUp,
+  Trophy,
+  Users,
+  XCircle,
 } from 'lucide-react';
 
 export default function AdminHistorialPage() {
@@ -68,29 +63,32 @@ export default function AdminHistorialPage() {
     const matchesSearch = raffle.title
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === 'all' || raffle.status === statusFilter;
-    
+    const matchesStatus =
+      statusFilter === 'all' || raffle.status === statusFilter;
+
     let matchesDate = true;
     if (dateFilter !== 'all') {
       const raffleDate = new Date(raffle.drawDate);
       const now = new Date();
-      
+
       switch (dateFilter) {
         case 'this_month':
-          matchesDate = raffleDate.getMonth() === now.getMonth() && 
-                       raffleDate.getFullYear() === now.getFullYear();
+          matchesDate =
+            raffleDate.getMonth() === now.getMonth() &&
+            raffleDate.getFullYear() === now.getFullYear();
           break;
         case 'last_month':
           const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-          matchesDate = raffleDate.getMonth() === lastMonth.getMonth() && 
-                       raffleDate.getFullYear() === lastMonth.getFullYear();
+          matchesDate =
+            raffleDate.getMonth() === lastMonth.getMonth() &&
+            raffleDate.getFullYear() === lastMonth.getFullYear();
           break;
         case 'this_year':
           matchesDate = raffleDate.getFullYear() === now.getFullYear();
           break;
       }
     }
-    
+
     return matchesSearch && matchesStatus && matchesDate;
   });
 
@@ -101,7 +99,7 @@ export default function AdminHistorialPage() {
     cancelledRaffles: allRaffles.filter(r => r.status === 'cancelled').length,
     totalRevenue: allRaffles
       .filter(r => r.status === 'completed')
-      .reduce((sum, r) => sum + (r.numbersSold * r.pricePerNumber), 0),
+      .reduce((sum, r) => sum + r.numbersSold * r.pricePerNumber, 0),
     totalParticipants: allRaffles.reduce((sum, r) => sum + r.numbersSold, 0),
   };
 
@@ -179,8 +177,8 @@ export default function AdminHistorialPage() {
             <Download className="w-4 h-4 mr-2" />
             Exportar
           </Button>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             size="sm"
             onClick={() => router.push('/admin/reportes')}
           >
@@ -266,7 +264,9 @@ export default function AdminHistorialPage() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Participantes</p>
+                <p className="text-sm font-medium text-gray-600">
+                  Participantes
+                </p>
                 <p className="text-2xl font-bold text-blue-600">
                   {stats.totalParticipants.toLocaleString()}
                 </p>
@@ -327,7 +327,9 @@ export default function AdminHistorialPage() {
                     </h3>
                     <div className="flex items-center gap-1">
                       {getStatusIcon(raffle.status)}
-                      <span className={`text-sm font-medium px-2 py-1 rounded ${getStatusColor(raffle.status)}`}>
+                      <span
+                        className={`text-sm font-medium px-2 py-1 rounded ${getStatusColor(raffle.status)}`}
+                      >
                         {getStatusText(raffle.status)}
                       </span>
                     </div>
@@ -350,7 +352,9 @@ export default function AdminHistorialPage() {
                       <DollarSign className="w-4 h-4 text-gray-500" />
                       <div>
                         <p className="text-sm text-gray-500">Precio/Número</p>
-                        <p className="font-semibold">${raffle.pricePerNumber}</p>
+                        <p className="font-semibold">
+                          ${raffle.pricePerNumber}
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -375,7 +379,10 @@ export default function AdminHistorialPage() {
                         <div>
                           <p className="text-sm text-gray-500">Ingresos</p>
                           <p className="font-semibold text-green-600">
-                            ${(raffle.numbersSold * raffle.pricePerNumber).toLocaleString()}
+                            $
+                            {(
+                              raffle.numbersSold * raffle.pricePerNumber
+                            ).toLocaleString()}
                           </p>
                         </div>
                       </div>
@@ -396,30 +403,39 @@ export default function AdminHistorialPage() {
                     })()}
                   </div>
 
-                  {raffle.status === 'completed' && (raffle as any).winnerNumber && (
-                    <div className="flex items-center gap-2 p-3 bg-green-50 rounded-lg mb-4">
-                      <Trophy className="w-5 h-5 text-green-600" />
-                      <div>
-                        <p className="text-sm text-green-800">
-                          <span className="font-semibold">Número ganador:</span> {(raffle as any).winnerNumber}
-                        </p>
-                        <p className="text-sm text-green-800">
-                          <span className="font-semibold">Ganador:</span> {(raffle as any).winnerName}
-                        </p>
+                  {raffle.status === 'completed' &&
+                    (raffle as any).winnerNumber && (
+                      <div className="flex items-center gap-2 p-3 bg-green-50 rounded-lg mb-4">
+                        <Trophy className="w-5 h-5 text-green-600" />
+                        <div>
+                          <p className="text-sm text-green-800">
+                            <span className="font-semibold">
+                              Número ganador:
+                            </span>{' '}
+                            {(raffle as any).winnerNumber}
+                          </p>
+                          <p className="text-sm text-green-800">
+                            <span className="font-semibold">Ganador:</span>{' '}
+                            {(raffle as any).winnerName}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {raffle.status === 'cancelled' && (raffle as any).cancelReason && (
-                    <div className="flex items-center gap-2 p-3 bg-red-50 rounded-lg mb-4">
-                      <XCircle className="w-5 h-5 text-red-600" />
-                      <div>
-                        <p className="text-sm text-red-800">
-                          <span className="font-semibold">Motivo de cancelación:</span> {(raffle as any).cancelReason}
-                        </p>
+                  {raffle.status === 'cancelled' &&
+                    (raffle as any).cancelReason && (
+                      <div className="flex items-center gap-2 p-3 bg-red-50 rounded-lg mb-4">
+                        <XCircle className="w-5 h-5 text-red-600" />
+                        <div>
+                          <p className="text-sm text-red-800">
+                            <span className="font-semibold">
+                              Motivo de cancelación:
+                            </span>{' '}
+                            {(raffle as any).cancelReason}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
                   <div className="flex flex-wrap gap-2">
                     {raffle.prizes.slice(0, 3).map(prize => (
@@ -439,8 +455,8 @@ export default function AdminHistorialPage() {
                 </div>
 
                 <div className="flex flex-col gap-2 ml-6">
-                  <Button 
-                    size="sm" 
+                  <Button
+                    size="sm"
                     variant="outline"
                     onClick={() => router.push(`/admin/rifas/${raffle.id}`)}
                   >

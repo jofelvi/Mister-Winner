@@ -17,15 +17,15 @@ import winnerService from '@/services/winnerService';
 import participationService from '@/services/participationService';
 import { Raffle, Winner } from '@/types';
 import {
-  Trophy,
-  Ticket,
-  Star,
-  Clock,
-  Users,
-  Gift,
-  TrendingUp,
   Calendar,
+  Clock,
+  Gift,
+  Star,
   Target,
+  Ticket,
+  TrendingUp,
+  Trophy,
+  Users,
   Zap,
 } from 'lucide-react';
 
@@ -37,7 +37,7 @@ export default function DashboardPage() {
     activeRaffles: 0,
     popularRaffles: [] as Raffle[],
     userParticipations: 0,
-    recentWinners: [] as Winner[]
+    recentWinners: [] as Winner[],
   });
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function DashboardPage() {
         const [activeRaffles, raffleStats, winners] = await Promise.all([
           raffleService.getActiveRaffles(),
           raffleService.getRaffleStats(),
-          winnerService.getRecentWinners(3)
+          winnerService.getRecentWinners(3),
         ]);
 
         // Get popular raffles (sort by numbers sold)
@@ -56,7 +56,7 @@ export default function DashboardPage() {
           .slice(0, 3);
 
         // Count user participations
-        const userParticipations = userProfile?.id 
+        const userParticipations = userProfile?.id
           ? await participationService.getUserParticipationCount(userProfile.id)
           : 0;
 
@@ -64,7 +64,7 @@ export default function DashboardPage() {
           activeRaffles: raffleStats.active,
           popularRaffles,
           userParticipations,
-          recentWinners: winners
+          recentWinners: winners,
         });
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
@@ -111,7 +111,6 @@ export default function DashboardPage() {
     },
   ];
 
-
   const getProgressPercentage = (sold: number, total: number) => {
     return Math.round((sold / total) * 100);
   };
@@ -120,13 +119,16 @@ export default function DashboardPage() {
     if (userProfile?.referralCode) {
       try {
         const referralText = `¡Únete a Mister Winner con mi código de referencia! Código: ${userProfile.referralCode}`;
-        
+
         // Try to use the Web Share API if available
         if (navigator.share) {
           await navigator.share({
             title: 'Mister Winner - Código de Referencia',
             text: referralText,
-            url: window.location.origin + '/register?ref=' + userProfile.referralCode
+            url:
+              window.location.origin +
+              '/register?ref=' +
+              userProfile.referralCode,
           });
         } else {
           // Fallback to clipboard
@@ -189,11 +191,7 @@ export default function DashboardPage() {
               {userProfile?.referralCode}
             </p>
           </div>
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={handleShareReferralCode}
-          >
+          <Button variant="outline" size="sm" onClick={handleShareReferralCode}>
             Compartir codigo
           </Button>
         </div>
@@ -239,23 +237,23 @@ export default function DashboardPage() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Button 
+            <Button
               className="h-16 flex-col gap-2"
               onClick={() => router.push('/rifas')}
             >
               <Ticket className="w-5 h-5" />
               <span>Comprar Numeros</span>
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               className="h-16 flex-col gap-2"
               onClick={handleViewWinners}
             >
               <Trophy className="w-5 h-5" />
               <span>Ver Ganadores</span>
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               className="h-16 flex-col gap-2"
               onClick={handleManagePoints}
             >
@@ -279,10 +277,7 @@ export default function DashboardPage() {
               <div className="text-center py-8 text-gray-500">
                 <Trophy className="w-12 h-12 mx-auto mb-3 text-gray-300" />
                 <p>No hay rifas populares disponibles</p>
-                <Button 
-                  className="mt-4"
-                  onClick={handleViewAllRaffles}
-                >
+                <Button className="mt-4" onClick={handleViewAllRaffles}>
                   Ver todas las rifas
                 </Button>
               </div>
@@ -354,10 +349,10 @@ export default function DashboardPage() {
                         ${raffle.pricePerNumber}
                       </p>
                       <p className="text-sm text-gray-500">por numero</p>
-                      <Button 
-                        size="sm" 
+                      <Button
+                        size="sm"
                         className="mt-2"
-                        onClick={(e) => {
+                        onClick={e => {
                           e.stopPropagation();
                           handleParticipateInRaffle(raffle.id);
                         }}
@@ -384,7 +379,7 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {dashboardData.recentWinners.map((winner) => (
+              {dashboardData.recentWinners.map(winner => (
                 <div
                   key={winner.id}
                   className="p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg border border-green-200"
@@ -394,14 +389,18 @@ export default function DashboardPage() {
                       <Trophy className="w-5 h-5 text-white" />
                     </div>
                     <div className="flex-1">
-                      <h4 className="font-semibold text-green-900">{winner.name}</h4>
-                      <p className="text-sm text-green-700">{winner.raffleTitle}</p>
+                      <h4 className="font-semibold text-green-900">
+                        {winner.name}
+                      </h4>
+                      <p className="text-sm text-green-700">
+                        {winner.raffleTitle}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-green-600">Premio:</span>
                     <span className="font-bold text-green-800">
-                      ${winner.prizeAmount.toLocaleString()}
+                      ${winner.prizeAmount?.toLocaleString()}
                     </span>
                   </div>
                   <div className="flex items-center justify-between mt-1">
@@ -419,10 +418,7 @@ export default function DashboardPage() {
               ))}
             </div>
             <div className="text-center mt-6">
-              <Button 
-                variant="outline" 
-                onClick={handleViewWinners}
-              >
+              <Button variant="outline" onClick={handleViewWinners}>
                 Ver todos los ganadores
               </Button>
             </div>

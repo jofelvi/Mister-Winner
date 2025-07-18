@@ -22,7 +22,9 @@ const Navbar = () => {
           <div className="p-1 rounded-lg bg-gradient-to-r from-cyan-500 to-teal-500 group-hover:from-cyan-600 group-hover:to-teal-600 transition-all duration-200">
             <Ticket className="h-6 w-6 text-white" />
           </div>
-          <span className="font-bold text-xl bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent">Mister Winner</span>
+          <span className="font-bold text-xl bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent">
+            Mister Winner
+          </span>
         </Link>
         <nav className="hidden md:flex gap-6">
           {navLinks.map(link => (
@@ -37,14 +39,14 @@ const Navbar = () => {
           ))}
         </nav>
         <div className="hidden md:flex items-center gap-3">
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             onClick={() => router.push('/login')}
             className="text-gray-700 hover:text-cyan-600 hover:bg-cyan-50 transition-colors"
           >
             Iniciar Sesión
           </Button>
-          <Button 
+          <Button
             onClick={() => router.push('/register')}
             className="bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 text-white px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
           >

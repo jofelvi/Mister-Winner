@@ -1,7 +1,7 @@
 'use client';
 import { Ticket } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 
 // Add CSS for background pattern
 const backgroundPatternCSS = `

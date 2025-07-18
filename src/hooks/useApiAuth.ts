@@ -21,7 +21,7 @@ export function useApiAuth() {
         const token = await authService.getIdToken();
         if (token) {
           authHeaders = {
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
           };
         }
       } catch (error) {
@@ -41,7 +41,9 @@ export function useApiAuth() {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+      throw new Error(
+        errorData.error || `HTTP error! status: ${response.status}`
+      );
     }
 
     return response.json();
@@ -50,11 +52,17 @@ export function useApiAuth() {
   const get = (url: string, options?: Omit<ApiOptions, 'method'>) =>
     apiCall(url, { ...options, method: 'GET' });
 
-  const post = (url: string, data?: any, options?: Omit<ApiOptions, 'method' | 'body'>) =>
-    apiCall(url, { ...options, method: 'POST', body: JSON.stringify(data) });
+  const post = (
+    url: string,
+    data?: any,
+    options?: Omit<ApiOptions, 'method' | 'body'>
+  ) => apiCall(url, { ...options, method: 'POST', body: JSON.stringify(data) });
 
-  const put = (url: string, data?: any, options?: Omit<ApiOptions, 'method' | 'body'>) =>
-    apiCall(url, { ...options, method: 'PUT', body: JSON.stringify(data) });
+  const put = (
+    url: string,
+    data?: any,
+    options?: Omit<ApiOptions, 'method' | 'body'>
+  ) => apiCall(url, { ...options, method: 'PUT', body: JSON.stringify(data) });
 
   const del = (url: string, options?: Omit<ApiOptions, 'method'>) =>
     apiCall(url, { ...options, method: 'DELETE' });

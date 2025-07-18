@@ -11,19 +11,19 @@ import {
 import { Button } from '@/components/shared/button/Button';
 import { Input } from '@/components/shared/input/input';
 import {
-  Smartphone,
-  CreditCard,
-  Settings,
-  Edit3,
-  Save,
-  X,
-  Plus,
-  Trash2,
-  Copy,
-  Check,
   AlertCircle,
+  Check,
+  Copy,
+  CreditCard,
+  Edit3,
   Eye,
   EyeOff,
+  Plus,
+  Save,
+  Settings,
+  Smartphone,
+  Trash2,
+  X,
 } from 'lucide-react';
 
 interface PaymentMethod {
@@ -42,7 +42,9 @@ export default function AdminPagosPage() {
   const { userProfile } = useAuth();
   const [editingMethod, setEditingMethod] = useState<string | null>(null);
   const [showCreateForm, setShowCreateForm] = useState(false);
-  const [showAccountNumbers, setShowAccountNumbers] = useState<{ [key: string]: boolean }>({});
+  const [showAccountNumbers, setShowAccountNumbers] = useState<{
+    [key: string]: boolean;
+  }>({});
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
   // Mock data - en producción vendría de Firebase
@@ -104,7 +106,12 @@ export default function AdminPagosPage() {
   ];
 
   const handleCreateMethod = () => {
-    if (newMethod.name && newMethod.bank && newMethod.accountNumber && newMethod.documentNumber) {
+    if (
+      newMethod.name &&
+      newMethod.bank &&
+      newMethod.accountNumber &&
+      newMethod.documentNumber
+    ) {
       const method: PaymentMethod = {
         id: Date.now().toString(),
         type: newMethod.type || 'pago_movil',
@@ -158,7 +165,11 @@ export default function AdminPagosPage() {
 
   const maskAccountNumber = (accountNumber: string) => {
     if (accountNumber.length <= 4) return accountNumber;
-    return accountNumber.slice(0, 4) + '*'.repeat(accountNumber.length - 8) + accountNumber.slice(-4);
+    return (
+      accountNumber.slice(0, 4) +
+      '*'.repeat(accountNumber.length - 8) +
+      accountNumber.slice(-4)
+    );
   };
 
   const getPaymentIcon = (type: string) => {
@@ -188,9 +199,7 @@ export default function AdminPagosPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
-            Métodos de Pago
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-900">Métodos de Pago</h1>
           <p className="text-gray-600 mt-1">
             Configura los métodos de pago disponibles para los participantes
           </p>
@@ -342,7 +351,9 @@ export default function AdminPagosPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
                     <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                       <div className="flex-1">
-                        <p className="text-sm text-gray-500">Número de Cuenta</p>
+                        <p className="text-sm text-gray-500">
+                          Número de Cuenta
+                        </p>
                         <div className="flex items-center gap-2">
                           <p className="font-mono text-sm">
                             {showAccountNumbers[method.id]
@@ -363,7 +374,10 @@ export default function AdminPagosPage() {
                       </div>
                       <button
                         onClick={() =>
-                          copyToClipboard(method.accountNumber, `account-${method.id}`)
+                          copyToClipboard(
+                            method.accountNumber,
+                            `account-${method.id}`
+                          )
                         }
                         className="text-gray-400 hover:text-cyan-600 transition-colors"
                       >
@@ -378,11 +392,16 @@ export default function AdminPagosPage() {
                     <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                       <div className="flex-1">
                         <p className="text-sm text-gray-500">Documento</p>
-                        <p className="font-mono text-sm">{method.documentNumber}</p>
+                        <p className="font-mono text-sm">
+                          {method.documentNumber}
+                        </p>
                       </div>
                       <button
                         onClick={() =>
-                          copyToClipboard(method.documentNumber, `doc-${method.id}`)
+                          copyToClipboard(
+                            method.documentNumber,
+                            `doc-${method.id}`
+                          )
                         }
                         className="text-gray-400 hover:text-cyan-600 transition-colors"
                       >
@@ -420,7 +439,8 @@ export default function AdminPagosPage() {
                     <div className="flex items-center gap-2 p-3 bg-amber-50 rounded-lg">
                       <AlertCircle className="w-4 h-4 text-amber-600" />
                       <p className="text-sm text-amber-800">
-                        Este método de pago está desactivado y no será visible para los participantes.
+                        Este método de pago está desactivado y no será visible
+                        para los participantes.
                       </p>
                     </div>
                   )}
@@ -462,7 +482,8 @@ export default function AdminPagosPage() {
               No hay métodos de pago configurados
             </h3>
             <p className="text-gray-600 mb-4">
-              Agrega métodos de pago para que los participantes puedan realizar sus transacciones.
+              Agrega métodos de pago para que los participantes puedan realizar
+              sus transacciones.
             </p>
             <Button onClick={() => setShowCreateForm(true)}>
               <Plus className="w-4 h-4 mr-2" />

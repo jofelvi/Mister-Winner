@@ -7,7 +7,7 @@ const userService = new FirestoreService<UserProfile>('users');
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const authResult = await withAuth(request, 'admin');
 
@@ -16,6 +16,7 @@ export async function PUT(
   }
 
   try {
+    const { id } = await params;
     const { role } = await request.json();
 
     // Validate role
@@ -27,7 +28,7 @@ export async function PUT(
     }
 
     // Prevent admins from changing their own role
-    if (params.id === authResult.user.uid) {
+    if (id === authResult.user.uid) {
       return NextResponse.json(
         { error: 'Cannot change your own role' },
         { status: 400 }
@@ -41,7 +42,7 @@ export async function PUT(
       updatedAt: new Date().toISOString(),
     };
 
-    const updatedUser = await userService.update(params.id, updates);
+    const updatedUser = await userService.update(id, updates);
 
     // TODO: Update Firebase Auth custom claims here
     // This requires Firebase Admin SDK implementation

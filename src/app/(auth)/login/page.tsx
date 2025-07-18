@@ -13,7 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/shared/card/card';
-import { Mail, Lock, Eye, EyeOff, Trophy, Sparkles } from 'lucide-react';
+import { Eye, EyeOff, Lock, Mail, Sparkles, Trophy } from 'lucide-react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');

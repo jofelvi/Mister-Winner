@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState, useCallback, useMemo } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import {
   Card,
@@ -16,30 +16,20 @@ import raffleService from '@/services/raffleService';
 import purchaseService, { PaymentMethod } from '@/services/purchaseService';
 import { Raffle } from '@/types';
 import {
-  Trophy,
-  Ticket,
-  Clock,
-  Users,
-  Calendar,
   ArrowLeft,
-  Search,
-  Filter,
-  Shuffle,
-  Plus,
-  Minus,
-  ShoppingCart,
-  CreditCard,
-  Smartphone,
-  Building2,
-  Star,
-  Coins,
+  Calendar,
   Check,
-  X,
-  AlertCircle,
-  Zap,
-  Gift,
+  Clock,
+  CreditCard,
+  Filter,
+  Search,
+  ShoppingCart,
+  Shuffle,
   Target,
-  Hash,
+  Trophy,
+  Users,
+  X,
+  Zap,
 } from 'lucide-react';
 
 export default function RaffleDetailPage() {
@@ -56,7 +46,8 @@ export default function RaffleDetailPage() {
   const [searchNumber, setSearchNumber] = useState('');
   const [showAvailableOnly, setShowAvailableOnly] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod | null>(null);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    useState<PaymentMethod | null>(null);
   const [paymentReference, setPaymentReference] = useState('');
   const [purchasing, setPurchasing] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -74,7 +65,7 @@ export default function RaffleDetailPage() {
         setLoading(true);
         const raffleData = await raffleService.getById(raffleId);
         setRaffle(raffleData);
-        setSoldNumbers(raffleData.soldNumbers || []);
+        setSoldNumbers(raffleData?.soldNumbers || []);
       } catch (error) {
         console.error('Error loading raffle:', error);
       } finally {
@@ -85,9 +76,12 @@ export default function RaffleDetailPage() {
     loadRaffle();
 
     // Setup real-time listener for sold numbers
-    const unsubscribe = purchaseService.listenToSoldNumbers(raffleId, (newSoldNumbers) => {
-      setSoldNumbers(newSoldNumbers);
-    });
+    const unsubscribe = purchaseService.listenToSoldNumbers(
+      raffleId,
+      newSoldNumbers => {
+        setSoldNumbers(newSoldNumbers);
+      }
+    );
 
     return () => unsubscribe();
   }, [raffleId]);
@@ -101,19 +95,19 @@ export default function RaffleDetailPage() {
   // Filter and paginate numbers
   const filteredNumbers = useMemo(() => {
     if (!raffle) return [];
-    
+
     let numbers = purchaseService.generateNumbersForRaffle(raffle.type);
-    
+
     // Filter by availability
     if (showAvailableOnly) {
       numbers = numbers.filter(num => !soldNumbers.includes(num));
     }
-    
+
     // Filter by search
     if (searchNumber) {
       numbers = numbers.filter(num => num.includes(searchNumber));
     }
-    
+
     return numbers;
   }, [raffle, soldNumbers, showAvailableOnly, searchNumber]);
 
@@ -125,44 +119,59 @@ export default function RaffleDetailPage() {
   const totalPages = Math.ceil(filteredNumbers.length / numbersPerPage);
 
   // Handlers
-  const handleNumberSelect = useCallback((number: string) => {
-    if (soldNumbers.includes(number)) return;
-    
-    setSelectedNumbers(prev => {
-      if (prev.includes(number)) {
-        return prev.filter(n => n !== number);
-      } else if (prev.length < maxSelectableNumbers) {
-        return [...prev, number].sort();
-      }
-      return prev;
-    });
-  }, [soldNumbers]);
+  const handleNumberSelect = useCallback(
+    (number: string) => {
+      if (soldNumbers.includes(number)) return;
 
-  const handleRandomSelection = useCallback((count: number) => {
-    const randomNumbers = purchaseService.getRandomAvailableNumbers(availableNumbers, count);
-    setSelectedNumbers(randomNumbers.sort());
-  }, [availableNumbers]);
+      setSelectedNumbers(prev => {
+        if (prev.includes(number)) {
+          return prev.filter(n => n !== number);
+        } else if (prev.length < maxSelectableNumbers) {
+          return [...prev, number].sort();
+        }
+        return prev;
+      });
+    },
+    [soldNumbers]
+  );
+
+  const handleRandomSelection = useCallback(
+    (count: number) => {
+      const randomNumbers = purchaseService.getRandomAvailableNumbers(
+        availableNumbers,
+        count
+      );
+      setSelectedNumbers(randomNumbers.sort());
+    },
+    [availableNumbers]
+  );
 
   const handlePurchase = async () => {
-    if (!userProfile || !raffle || !selectedPaymentMethod || selectedNumbers.length === 0) {
+    if (
+      !userProfile ||
+      !raffle ||
+      !selectedPaymentMethod ||
+      selectedNumbers.length === 0
+    ) {
       return;
     }
 
     try {
       setPurchasing(true);
-      
+
       // Final availability check
-      const { available, taken } = await purchaseService.checkNumbersAvailability(
-        raffleId, 
-        selectedNumbers
-      );
-      
+      const { available, taken } =
+        await purchaseService.checkNumbersAvailability(
+          raffleId,
+          selectedNumbers
+        );
+
       if (taken.length > 0) {
         alert(`Los siguientes numeros ya fueron vendidos: ${taken.join(', ')}`);
         setSelectedNumbers(available);
         return;
       }
-      
+
       // Process purchase
       await purchaseService.purchaseNumbers(
         raffleId,
@@ -171,19 +180,20 @@ export default function RaffleDetailPage() {
         selectedPaymentMethod,
         paymentReference
       );
-      
+
       // Success
       alert('Compra realizada exitosamente!');
       setSelectedNumbers([]);
       setShowPaymentModal(false);
       setPaymentReference('');
-      
+
       // Redirect to history
       router.push('/historial');
-      
     } catch (error) {
       console.error('Error purchasing numbers:', error);
-      alert(error instanceof Error ? error.message : 'Error al procesar la compra');
+      alert(
+        error instanceof Error ? error.message : 'Error al procesar la compra'
+      );
     } finally {
       setPurchasing(false);
     }
@@ -209,7 +219,9 @@ export default function RaffleDetailPage() {
   };
 
   const totalAmount = selectedNumbers.length * (raffle?.pricePerNumber || 0);
-  const progress = raffle ? Math.round((raffle.numbersSold / raffle.totalNumbers) * 100) : 0;
+  const progress = raffle
+    ? Math.round((raffle.numbersSold / raffle.totalNumbers) * 100)
+    : 0;
   const isNearDraw = progress >= 80;
 
   if (loading) {
@@ -223,7 +235,9 @@ export default function RaffleDetailPage() {
   if (!raffle) {
     return (
       <div className="p-6 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">Rifa no encontrada</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-4">
+          Rifa no encontrada
+        </h1>
         <Button onClick={() => router.push('/rifas')}>
           <ArrowLeft className="w-4 h-4 mr-2" />
           Volver a Rifas
@@ -237,8 +251,8 @@ export default function RaffleDetailPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             size="sm"
             onClick={() => router.push('/rifas')}
           >
@@ -281,8 +295,13 @@ export default function RaffleDetailPage() {
                 <h4 className="text-sm font-medium text-gray-700">Premios</h4>
                 <div className="space-y-1">
                   {raffle.prizes.slice(0, 3).map(prize => (
-                    <div key={prize.id} className="flex items-center justify-between text-sm">
-                      <span className="text-gray-600">{prize.position} lugar:</span>
+                    <div
+                      key={prize.id}
+                      className="flex items-center justify-between text-sm"
+                    >
+                      <span className="text-gray-600">
+                        {prize.position} lugar:
+                      </span>
                       <span className="font-semibold text-gray-900">
                         ${prize.amount.toLocaleString()}
                       </span>
@@ -299,7 +318,9 @@ export default function RaffleDetailPage() {
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div className="flex items-center gap-1 text-gray-600">
                   <Users className="w-4 h-4" />
-                  <span>{raffle.numbersSold.toLocaleString()} participantes</span>
+                  <span>
+                    {raffle.numbersSold.toLocaleString()} participantes
+                  </span>
                 </div>
                 <div className="flex items-center gap-1 text-gray-600">
                   <Calendar className="w-4 h-4" />
@@ -392,7 +413,7 @@ export default function RaffleDetailPage() {
                     <CreditCard className="w-4 h-4 mr-2" />
                     Proceder al Pago
                   </Button>
-                  
+
                   <Button
                     variant="outline"
                     className="w-full"
@@ -424,18 +445,22 @@ export default function RaffleDetailPage() {
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
                   />
                 </div>
-                
+
                 <div className="flex items-center gap-2">
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => setShowAvailableOnly(!showAvailableOnly)}
-                    className={showAvailableOnly ? 'bg-cyan-50 text-cyan-700 border-cyan-300' : ''}
+                    className={
+                      showAvailableOnly
+                        ? 'bg-cyan-50 text-cyan-700 border-cyan-300'
+                        : ''
+                    }
                   >
                     <Filter className="w-4 h-4 mr-2" />
                     Solo Disponibles
                   </Button>
-                  
+
                   <Button
                     variant="outline"
                     size="sm"
@@ -445,15 +470,14 @@ export default function RaffleDetailPage() {
                     <Shuffle className="w-4 h-4 mr-2" />
                     Aleatorio
                   </Button>
-                  
+
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => handleRandomSelection(5)}
                     disabled={availableNumbers.length < 5}
                   >
-                    <Zap className="w-4 h-4 mr-2" />
-                    5 Numeros
+                    <Zap className="w-4 h-4 mr-2" />5 Numeros
                   </Button>
                 </div>
               </div>
@@ -493,11 +517,11 @@ export default function RaffleDetailPage() {
                     disabled={soldNumbers.includes(number)}
                     className={`p-2 text-sm font-mono border rounded text-center ${getNumberStyles(number)}`}
                     title={
-                      soldNumbers.includes(number) 
-                        ? 'Numero vendido' 
+                      soldNumbers.includes(number)
+                        ? 'Numero vendido'
                         : selectedNumbers.includes(number)
-                        ? 'Click para quitar'
-                        : 'Click para seleccionar'
+                          ? 'Click para quitar'
+                          : 'Click para seleccionar'
                     }
                   >
                     {number}
@@ -512,7 +536,9 @@ export default function RaffleDetailPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                      onClick={() =>
+                        setCurrentPage(prev => Math.max(1, prev - 1))
+                      }
                       disabled={currentPage === 1}
                     >
                       Anterior
@@ -523,14 +549,17 @@ export default function RaffleDetailPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                      onClick={() =>
+                        setCurrentPage(prev => Math.min(totalPages, prev + 1))
+                      }
                       disabled={currentPage === totalPages}
                     >
                       Siguiente
                     </Button>
                   </div>
                   <div className="text-sm text-gray-600">
-                    {filteredNumbers.length} numeros {showAvailableOnly ? 'disponibles' : 'total'}
+                    {filteredNumbers.length} numeros{' '}
+                    {showAvailableOnly ? 'disponibles' : 'total'}
                   </div>
                 </div>
               )}
@@ -561,7 +590,9 @@ export default function RaffleDetailPage() {
             <CardContent className="space-y-4">
               {/* Order Summary */}
               <div className="bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-medium text-gray-900 mb-2">Resumen del Pedido</h4>
+                <h4 className="font-medium text-gray-900 mb-2">
+                  Resumen del Pedido
+                </h4>
                 <div className="space-y-1 text-sm">
                   <div className="flex justify-between">
                     <span>Numeros seleccionados:</span>
@@ -580,29 +611,37 @@ export default function RaffleDetailPage() {
 
               {/* Payment Methods */}
               <div className="space-y-2">
-                <h4 className="font-medium text-gray-900">Selecciona tu metodo de pago:</h4>
-                {paymentMethods.filter(method => method.enabled).map(method => (
-                  <button
-                    key={method.id}
-                    onClick={() => setSelectedPaymentMethod(method)}
-                    className={`w-full p-3 border rounded-lg text-left transition-all ${
-                      selectedPaymentMethod?.id === method.id
-                        ? 'border-cyan-500 bg-cyan-50'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="text-2xl">{method.icon}</span>
-                      <div>
-                        <p className="font-medium text-gray-900">{method.name}</p>
-                        <p className="text-sm text-gray-600">{method.description}</p>
+                <h4 className="font-medium text-gray-900">
+                  Selecciona tu metodo de pago:
+                </h4>
+                {paymentMethods
+                  .filter(method => method.enabled)
+                  .map(method => (
+                    <button
+                      key={method.id}
+                      onClick={() => setSelectedPaymentMethod(method)}
+                      className={`w-full p-3 border rounded-lg text-left transition-all ${
+                        selectedPaymentMethod?.id === method.id
+                          ? 'border-cyan-500 bg-cyan-50'
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl">{method.icon}</span>
+                        <div>
+                          <p className="font-medium text-gray-900">
+                            {method.name}
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            {method.description}
+                          </p>
+                        </div>
+                        {selectedPaymentMethod?.id === method.id && (
+                          <Check className="w-5 h-5 text-cyan-600 ml-auto" />
+                        )}
                       </div>
-                      {selectedPaymentMethod?.id === method.id && (
-                        <Check className="w-5 h-5 text-cyan-600 ml-auto" />
-                      )}
-                    </div>
-                  </button>
-                ))}
+                    </button>
+                  ))}
               </div>
 
               {/* Payment Reference */}
@@ -627,9 +666,10 @@ export default function RaffleDetailPage() {
                   className="w-full"
                   onClick={handlePurchase}
                   disabled={
-                    !selectedPaymentMethod || 
+                    !selectedPaymentMethod ||
                     purchasing ||
-                    (selectedPaymentMethod?.requiresReference && !paymentReference.trim())
+                    (selectedPaymentMethod?.requiresReference &&
+                      !paymentReference.trim())
                   }
                 >
                   {purchasing ? (
@@ -644,7 +684,7 @@ export default function RaffleDetailPage() {
                     </>
                   )}
                 </Button>
-                
+
                 <Button
                   variant="outline"
                   className="w-full"

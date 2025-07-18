@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, ReactNode } from 'react';
+import { createContext, ReactNode, useContext } from 'react';
 import { User } from 'firebase/auth';
 import { useAuth } from '@/hooks/useAuth';
 import { UserProfile } from '@/types';

@@ -5,9 +5,9 @@ import {
   doc,
   getDoc,
   getDocs,
+  query,
   setDoc,
   updateDoc,
-  query,
   where,
 } from 'firebase/firestore';
 import { db } from '@/services/firebase';
@@ -188,3 +188,4 @@ class FirestoreService<T extends { id: string }> {
 }
 
 export default FirestoreService;
+export { FirestoreService };

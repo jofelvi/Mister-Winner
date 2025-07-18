@@ -1,11 +1,11 @@
 import { storage } from './firebase';
-import { 
-  ref, 
-  uploadBytes, 
-  getDownloadURL, 
+import {
   deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytes,
   uploadBytesResumable,
-  UploadTaskSnapshot 
+  UploadTaskSnapshot,
 } from 'firebase/storage';
 
 export interface UploadProgress {
@@ -39,24 +39,27 @@ class StorageService {
       if (onProgress) {
         // Upload with progress tracking
         const uploadTask = uploadBytesResumable(storageRef, file);
-        
+
         return new Promise((resolve, reject) => {
           uploadTask.on(
             'state_changed',
             (snapshot: UploadTaskSnapshot) => {
-              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
               onProgress({
                 progress,
-                state: snapshot.state as any
+                state: snapshot.state as any,
               });
             },
-            (error) => {
+            error => {
               console.error('Error uploading image:', error);
               reject(new Error('Error al subir la imagen'));
             },
             async () => {
               try {
-                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                const downloadURL = await getDownloadURL(
+                  uploadTask.snapshot.ref
+                );
                 resolve(downloadURL);
               } catch (error) {
                 reject(new Error('Error al obtener la URL de la imagen'));
@@ -79,8 +82,10 @@ class StorageService {
     try {
       // Extract the file path from the URL
       const url = new URL(imageUrl);
-      const filePath = decodeURIComponent(url.pathname.split('/o/')[1].split('?')[0]);
-      
+      const filePath = decodeURIComponent(
+        url.pathname.split('/o/')[1].split('?')[0]
+      );
+
       const storageRef = ref(storage, filePath);
       await deleteObject(storageRef);
     } catch (error) {
@@ -114,24 +119,27 @@ class StorageService {
       if (onProgress) {
         // Upload with progress tracking
         const uploadTask = uploadBytesResumable(storageRef, file);
-        
+
         return new Promise((resolve, reject) => {
           uploadTask.on(
             'state_changed',
             (snapshot: UploadTaskSnapshot) => {
-              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
               onProgress({
                 progress,
-                state: snapshot.state as any
+                state: snapshot.state as any,
               });
             },
-            (error) => {
+            error => {
               console.error('Error uploading raffle image:', error);
               reject(new Error('Error al subir la imagen'));
             },
             async () => {
               try {
-                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                const downloadURL = await getDownloadURL(
+                  uploadTask.snapshot.ref
+                );
                 resolve(downloadURL);
               } catch (error) {
                 reject(new Error('Error al obtener la URL de la imagen'));
@@ -172,9 +180,17 @@ class StorageService {
     }
 
     // Check supported formats
-    const supportedFormats = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+    const supportedFormats = [
+      'image/jpeg',
+      'image/jpg',
+      'image/png',
+      'image/webp',
+    ];
     if (!supportedFormats.includes(file.type)) {
-      return { isValid: false, error: 'Formato no soportado. Use JPG, PNG o WebP' };
+      return {
+        isValid: false,
+        error: 'Formato no soportado. Use JPG, PNG o WebP',
+      };
     }
 
     return { isValid: true };

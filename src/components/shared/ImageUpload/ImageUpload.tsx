@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
-import { Upload, X, Image as ImageIcon } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { Upload, X } from 'lucide-react';
 import storageService, { UploadProgress } from '@/services/storageService';
 
 interface ImageUploadProps {
@@ -21,15 +21,21 @@ export default function ImageUpload({
   entityId,
   uploadPath = 'prizes',
   className = '',
-  placeholder = 'Subir imagen'
+  placeholder = 'Subir imagen',
 }: ImageUploadProps) {
   const [isUploading, setIsUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState<UploadProgress | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(currentImageUrl || null);
+  const [uploadProgress, setUploadProgress] = useState<UploadProgress | null>(
+    null
+  );
+  const [previewUrl, setPreviewUrl] = useState<string | null>(
+    currentImageUrl || null
+  );
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -51,21 +57,22 @@ export default function ImageUpload({
       setUploadProgress({ progress: 0, state: 'running' });
 
       // Upload file
-      const uploadMethod = uploadPath === 'prizes' 
-        ? storageService.uploadPrizeImage.bind(storageService)
-        : storageService.uploadRaffleImage.bind(storageService);
+      const uploadMethod =
+        uploadPath === 'prizes'
+          ? storageService.uploadPrizeImage.bind(storageService)
+          : storageService.uploadRaffleImage.bind(storageService);
 
-      const imageUrl = await uploadMethod(
-        file,
-        entityId,
-        (progress) => setUploadProgress(progress)
+      const imageUrl = await uploadMethod(file, entityId, progress =>
+        setUploadProgress(progress)
       );
 
       onImageUploaded(imageUrl);
       setUploadProgress({ progress: 100, state: 'success' });
     } catch (error) {
       console.error('Error uploading image:', error);
-      setError(error instanceof Error ? error.message : 'Error al subir la imagen');
+      setError(
+        error instanceof Error ? error.message : 'Error al subir la imagen'
+      );
       setPreviewUrl(currentImageUrl || null);
     } finally {
       setIsUploading(false);
@@ -115,12 +122,14 @@ export default function ImageUpload({
               <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                 <div className="text-white text-center">
                   <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mb-2" />
-                  <p className="text-sm">{Math.round(uploadProgress.progress)}%</p>
+                  <p className="text-sm">
+                    {Math.round(uploadProgress.progress)}%
+                  </p>
                 </div>
               </div>
             )}
           </div>
-          
+
           <button
             type="button"
             onClick={handleRemoveImage}
@@ -142,14 +151,18 @@ export default function ImageUpload({
               <div className="w-8 h-8 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin mb-2" />
               <span className="text-sm">Subiendo...</span>
               {uploadProgress && (
-                <span className="text-xs">{Math.round(uploadProgress.progress)}%</span>
+                <span className="text-xs">
+                  {Math.round(uploadProgress.progress)}%
+                </span>
               )}
             </>
           ) : (
             <>
               <Upload size={24} className="mb-2" />
               <span className="text-sm">{placeholder}</span>
-              <span className="text-xs text-gray-400">JPG, PNG, WebP (máx. 10MB)</span>
+              <span className="text-xs text-gray-400">
+                JPG, PNG, WebP (máx. 10MB)
+              </span>
             </>
           )}
         </button>

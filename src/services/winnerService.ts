@@ -75,64 +75,6 @@ class WinnerService extends FirestoreService<Winner> {
     }
   }
 
-  async getTotalPrizesAwarded(): Promise<number> {
-    try {
-      const allWinners = await this.getAll();
-      return allWinners.reduce(
-        (total, winner) => total + winner.prizeAmount,
-        0
-      );
-    } catch (error) {
-      console.error('Error getting total prizes awarded:', error);
-      throw error;
-    }
-  }
-
-  async getWinnerStats(): Promise<{
-    totalWinners: number;
-    totalPrizesAwarded: number;
-    averagePrize: number;
-    biggestPrize: number;
-    winnersThisMonth: number;
-  }> {
-    try {
-      const allWinners = await this.getAll();
-      const currentMonth = new Date().getMonth();
-      const currentYear = new Date().getFullYear();
-
-      const winnersThisMonth = allWinners.filter(winner => {
-        if (!winner.drawDate) return false;
-        const drawDate = new Date(winner.drawDate);
-        return (
-          drawDate.getMonth() === currentMonth &&
-          drawDate.getFullYear() === currentYear
-        );
-      }).length;
-
-      const totalPrizesAwarded = allWinners.reduce(
-        (total, winner) => total + winner.prizeAmount,
-        0
-      );
-      const averagePrize =
-        allWinners.length > 0 ? totalPrizesAwarded / allWinners.length : 0;
-      const biggestPrize =
-        allWinners.length > 0
-          ? Math.max(...allWinners.map(w => w.prizeAmount))
-          : 0;
-
-      return {
-        totalWinners: allWinners.length,
-        totalPrizesAwarded,
-        averagePrize,
-        biggestPrize,
-        winnersThisMonth,
-      };
-    } catch (error) {
-      console.error('Error getting winner stats:', error);
-      throw error;
-    }
-  }
-
   async searchWinners(query: string): Promise<Winner[]> {
     try {
       const allWinners = await this.getAll();
@@ -141,7 +83,7 @@ class WinnerService extends FirestoreService<Winner> {
       return allWinners.filter(
         winner =>
           winner.name.toLowerCase().includes(lowercaseQuery) ||
-          winner.raffleTitle.toLowerCase().includes(lowercaseQuery) ||
+          winner.raffleTitle?.toLowerCase().includes(lowercaseQuery) ||
           winner.winningNumber.includes(query) ||
           (winner.prizeName &&
             winner.prizeName.toLowerCase().includes(lowercaseQuery))

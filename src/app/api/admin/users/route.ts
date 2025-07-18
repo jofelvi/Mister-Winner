@@ -7,7 +7,7 @@ const userService = new FirestoreService<UserProfile>('users');
 
 export async function GET(request: NextRequest) {
   const authResult = await withAuth(request, 'admin');
-  
+
   if (authResult.error) {
     return authResult.error;
   }
@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
       ...user,
       // Remove any sensitive fields if needed
     }));
-    
+
     return NextResponse.json(safeUsers);
   } catch (error) {
     console.error('Error fetching users:', error);

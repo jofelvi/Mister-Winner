@@ -1,11 +1,11 @@
 import {
-  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
   signOut,
+  updateProfile,
   User,
   UserCredential,
-  sendPasswordResetEmail,
-  updateProfile,
 } from 'firebase/auth';
 import { auth } from './firebase';
 import { UserProfile } from '@/types';
@@ -124,7 +124,10 @@ class AuthService {
     }
   }
 
-  async updateUserRole(userId: string, role: 'user' | 'agent' | 'admin'): Promise<void> {
+  async updateUserRole(
+    userId: string,
+    role: 'user' | 'agent' | 'admin'
+  ): Promise<void> {
     try {
       // Only allow this for admin operations
       const currentUser = await this.getCurrentUserProfile();
@@ -132,9 +135,8 @@ class AuthService {
         throw new Error('Unauthorized: Admin role required');
       }
 
-      await this.userService.update(userId, { 
+      await this.userService.update(userId, {
         role,
-        updatedAt: new Date()
       });
 
       // TODO: Update Firebase Auth custom claims
@@ -150,7 +152,7 @@ class AuthService {
     try {
       const user = auth.currentUser;
       if (!user) return null;
-      
+
       return await user.getIdToken();
     } catch (error) {
       console.error('Error getting ID token:', error);

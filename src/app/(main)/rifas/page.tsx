@@ -1,12 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/components/shared/card/card';
 import { Button } from '@/components/shared/button/Button';
 import { Loader } from '@/components/shared/Loader/Loader';
 import { RaffleCard } from '@/features/landing/RaffleCard';
@@ -14,13 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import raffleService from '@/services/raffleService';
 import { Raffle } from '@/types';
-import {
-  Trophy,
-  Ticket,
-  Star,
-  Filter,
-  Search,
-} from 'lucide-react';
+import { Filter, Search, Star, Ticket } from 'lucide-react';
 
 export default function RifasPage() {
   const router = useRouter();
@@ -30,7 +18,7 @@ export default function RifasPage() {
   const [filters, setFilters] = useState({
     type: 'all',
     sortBy: 'drawDate',
-    priceRange: 'all'
+    priceRange: 'all',
   });
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -50,45 +38,52 @@ export default function RifasPage() {
     fetchRaffles();
   }, []);
 
-  const filteredRaffles = raffles.filter(raffle => {
-    // Type filter
-    if (filters.type !== 'all' && raffle.type.toString() !== filters.type) {
-      return false;
-    }
-
-    // Price range filter
-    if (filters.priceRange !== 'all') {
-      const price = raffle.pricePerNumber;
-      switch (filters.priceRange) {
-        case '1-5':
-          if (price < 1 || price > 5) return false;
-          break;
-        case '5-10':
-          if (price < 5 || price > 10) return false;
-          break;
-        case '10+':
-          if (price < 10) return false;
-          break;
+  const filteredRaffles = raffles
+    .filter(raffle => {
+      // Type filter
+      if (filters.type !== 'all' && raffle.type.toString() !== filters.type) {
+        return false;
       }
-    }
 
-    // Search filter
-    if (searchTerm && !raffle.title.toLowerCase().includes(searchTerm.toLowerCase())) {
-      return false;
-    }
+      // Price range filter
+      if (filters.priceRange !== 'all') {
+        const price = raffle.pricePerNumber;
+        switch (filters.priceRange) {
+          case '1-5':
+            if (price < 1 || price > 5) return false;
+            break;
+          case '5-10':
+            if (price < 5 || price > 10) return false;
+            break;
+          case '10+':
+            if (price < 10) return false;
+            break;
+        }
+      }
 
-    return true;
-  }).sort((a, b) => {
-    switch (filters.sortBy) {
-      case 'price':
-        return a.pricePerNumber - b.pricePerNumber;
-      case 'popularity':
-        return b.numbersSold - a.numbersSold;
-      case 'drawDate':
-      default:
-        return new Date(a.drawDate).getTime() - new Date(b.drawDate).getTime();
-    }
-  });
+      // Search filter
+      if (
+        searchTerm &&
+        !raffle.title.toLowerCase().includes(searchTerm.toLowerCase())
+      ) {
+        return false;
+      }
+
+      return true;
+    })
+    .sort((a, b) => {
+      switch (filters.sortBy) {
+        case 'price':
+          return a.pricePerNumber - b.pricePerNumber;
+        case 'popularity':
+          return b.numbersSold - a.numbersSold;
+        case 'drawDate':
+        default:
+          return (
+            new Date(a.drawDate).getTime() - new Date(b.drawDate).getTime()
+          );
+      }
+    });
 
   if (loading) {
     return (
@@ -108,18 +103,15 @@ export default function RifasPage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             size="sm"
             onClick={() => router.push('/favoritas')}
           >
             <Star className="w-4 h-4 mr-2" />
             Favoritas
           </Button>
-          <Button 
-            size="sm"
-            onClick={() => router.push('/historial')}
-          >
+          <Button size="sm" onClick={() => router.push('/historial')}>
             <Ticket className="w-4 h-4 mr-2" />
             Mis Participaciones
           </Button>
@@ -130,9 +122,11 @@ export default function RifasPage() {
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex items-center gap-2">
           <Filter className="w-4 h-4 text-gray-500" />
-          <select 
+          <select
             value={filters.type}
-            onChange={(e) => setFilters(prev => ({ ...prev, type: e.target.value }))}
+            onChange={e =>
+              setFilters(prev => ({ ...prev, type: e.target.value }))
+            }
             className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
           >
             <option value="all">Todos los tipos</option>
@@ -142,20 +136,24 @@ export default function RifasPage() {
             <option value="6">6 dígitos</option>
           </select>
         </div>
-        
-        <select 
+
+        <select
           value={filters.sortBy}
-          onChange={(e) => setFilters(prev => ({ ...prev, sortBy: e.target.value }))}
+          onChange={e =>
+            setFilters(prev => ({ ...prev, sortBy: e.target.value }))
+          }
           className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
         >
           <option value="drawDate">Fecha de sorteo</option>
           <option value="price">Precio</option>
           <option value="popularity">Popularidad</option>
         </select>
-        
-        <select 
+
+        <select
           value={filters.priceRange}
-          onChange={(e) => setFilters(prev => ({ ...prev, priceRange: e.target.value }))}
+          onChange={e =>
+            setFilters(prev => ({ ...prev, priceRange: e.target.value }))
+          }
           className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
         >
           <option value="all">Todos los precios</option>
@@ -170,7 +168,7 @@ export default function RifasPage() {
             type="text"
             placeholder="Buscar rifas..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={e => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
           />
         </div>
@@ -184,14 +182,22 @@ export default function RifasPage() {
               No se encontraron rifas
             </h3>
             <p className="text-gray-600 mb-4">
-              {searchTerm || filters.type !== 'all' || filters.priceRange !== 'all'
+              {searchTerm ||
+              filters.type !== 'all' ||
+              filters.priceRange !== 'all'
                 ? 'Intenta ajustar los filtros para ver más resultados.'
                 : 'No hay rifas activas en este momento.'}
             </p>
-            <Button onClick={() => {
-              setSearchTerm('');
-              setFilters({ type: 'all', sortBy: 'drawDate', priceRange: 'all' });
-            }}>
+            <Button
+              onClick={() => {
+                setSearchTerm('');
+                setFilters({
+                  type: 'all',
+                  sortBy: 'drawDate',
+                  priceRange: 'all',
+                });
+              }}
+            >
               Limpiar Filtros
             </Button>
           </div>
@@ -205,8 +211,8 @@ export default function RifasPage() {
       {/* Load More - Only show if there are results */}
       {filteredRaffles.length > 0 && (
         <div className="text-center">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             size="lg"
             onClick={() => {
               // TODO: Implement pagination

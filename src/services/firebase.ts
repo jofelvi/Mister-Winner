@@ -4,13 +4,13 @@ import { getAuth } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyChri3lVZRU2D9zOas_a2_cc5J4NRdLSYo',
-  authDomain: 'mister-winner.firebaseapp.com',
-  projectId: 'mister-winner',
-  storageBucket: 'mister-winner.firebasestorage.app',
-  messagingSenderId: '419429221055',
-  appId: '1:419429221055:web:19cca534665272f1ac3c0a',
-  measurementId: 'G-HR2E0NLEHL',
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 let firebaseApp;
 

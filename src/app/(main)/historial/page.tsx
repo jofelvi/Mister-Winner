@@ -1,13 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { Card, CardContent } from '@/components/shared/card/card';
 import { Button } from '@/components/shared/button/Button';
 import { Loader } from '@/components/shared/Loader/Loader';
 import { formatFirebaseDate } from '@/utils/dateUtils';
-import participationService, { UserParticipation } from '@/services/participationService';
+import participationService, {
+  UserParticipation,
+} from '@/services/participationService';
 import {
   CheckCircle,
   Clock,
@@ -38,7 +40,8 @@ export default function HistorialPage() {
 
       try {
         setLoading(true);
-        const userParticipations = await participationService.getUserParticipations(userProfile.id);
+        const userParticipations =
+          await participationService.getUserParticipations(userProfile.id);
         setParticipations(userParticipations);
       } catch (error) {
         console.error('Error fetching user participations:', error);
@@ -131,8 +134,8 @@ export default function HistorialPage() {
             Revisa todas tus participaciones y resultados
           </p>
         </div>
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           size="sm"
           onClick={() => router.push('/ganadores')}
         >
@@ -251,14 +254,16 @@ export default function HistorialPage() {
             <CardContent className="p-12 text-center">
               <History className="w-16 h-16 text-gray-300 mx-auto mb-4" />
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                {participations.length === 0 ? 'No hay participaciones' : 'No se encontraron resultados'}
+                {participations.length === 0
+                  ? 'No hay participaciones'
+                  : 'No se encontraron resultados'}
               </h3>
               <p className="text-gray-600 mb-4">
                 {participations.length === 0
                   ? 'Aún no has participado en ninguna rifa.'
                   : filter === 'all'
-                  ? 'Intenta ajustar los filtros de búsqueda.'
-                  : `No tienes participaciones con el filtro "${getStatusText(filter)}".`}
+                    ? 'Intenta ajustar los filtros de búsqueda.'
+                    : `No tienes participaciones con el filtro "${getStatusText(filter)}".`}
               </p>
               <Button onClick={() => router.push('/rifas')}>
                 <Ticket className="w-4 h-4 mr-2" />
@@ -276,7 +281,9 @@ export default function HistorialPage() {
                       <h3 className="text-lg font-semibold text-gray-900">
                         {item.raffleTitle}
                       </h3>
-                      <div className={`flex items-center gap-1 px-3 py-1 rounded-full border text-sm font-medium ${getStatusColor(item.status)}`}>
+                      <div
+                        className={`flex items-center gap-1 px-3 py-1 rounded-full border text-sm font-medium ${getStatusColor(item.status)}`}
+                      >
                         {getStatusIcon(item.status)}
                         <span>{getStatusText(item.status)}</span>
                       </div>
@@ -284,7 +291,9 @@ export default function HistorialPage() {
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                       <div>
-                        <p className="text-sm text-gray-500">Números comprados</p>
+                        <p className="text-sm text-gray-500">
+                          Números comprados
+                        </p>
                         <p className="font-semibold">{item.numbers.length}</p>
                       </div>
                       <div>
@@ -321,8 +330,8 @@ export default function HistorialPage() {
                   </div>
 
                   <div className="flex flex-col gap-2 ml-4">
-                    <Button 
-                      size="sm" 
+                    <Button
+                      size="sm"
                       variant="outline"
                       onClick={() => handleViewDetail(item.id)}
                     >
@@ -331,7 +340,7 @@ export default function HistorialPage() {
                     </Button>
 
                     {item.status === 'active' && (
-                      <Button 
+                      <Button
                         size="sm"
                         onClick={() => handleBuyMore(item.raffleId)}
                       >

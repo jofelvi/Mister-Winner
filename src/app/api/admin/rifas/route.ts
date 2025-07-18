@@ -7,7 +7,7 @@ const raffleService = new FirestoreService<Raffle>('raffles');
 
 export async function GET(request: NextRequest) {
   const authResult = await withAuth(request, 'admin');
-  
+
   if (authResult.error) {
     return authResult.error;
   }
@@ -26,14 +26,14 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const authResult = await withAuth(request, 'admin');
-  
+
   if (authResult.error) {
     return authResult.error;
   }
 
   try {
     const raffleData = await request.json();
-    
+
     // Add audit info
     const enrichedRaffle = {
       ...raffleData,
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
       updatedAt: new Date().toISOString(),
     };
 
-    const newRaffle = await raffleService.add(enrichedRaffle);
+    const newRaffle = await raffleService.create(enrichedRaffle);
     return NextResponse.json(newRaffle, { status: 201 });
   } catch (error) {
     console.error('Error creating raffle:', error);

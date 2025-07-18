@@ -11,16 +11,16 @@ import {
 import { Button } from '@/components/shared/button/Button';
 import { Input } from '@/components/shared/input/input';
 import {
-  User,
+  CreditCard,
+  Edit3,
+  Gift,
   Mail,
   Phone,
-  CreditCard,
+  Save,
   Shield,
   Star,
-  Gift,
+  User,
   UserPlus,
-  Edit3,
-  Save,
   X,
 } from 'lucide-react';
 

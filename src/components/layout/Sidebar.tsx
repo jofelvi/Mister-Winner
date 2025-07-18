@@ -7,19 +7,19 @@ import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/shared/button/Button';
 import {
-  Trophy,
-  Home,
-  Ticket,
+  ChevronRight,
+  Crown,
   History,
-  User,
-  Settings,
+  Home,
   LogOut,
   Menu,
-  X,
-  Crown,
+  Settings,
   Shield,
   Star,
-  ChevronRight,
+  Ticket,
+  Trophy,
+  User,
+  X,
 } from 'lucide-react';
 
 interface SidebarProps {

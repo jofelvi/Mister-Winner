@@ -14,15 +14,15 @@ import {
   CardTitle,
 } from '@/components/shared/card/card';
 import {
-  Mail,
-  Lock,
+  CreditCard,
   Eye,
   EyeOff,
-  Trophy,
-  Sparkles,
-  User,
+  Lock,
+  Mail,
   Phone,
-  CreditCard,
+  Sparkles,
+  Trophy,
+  User,
   UserPlus,
 } from 'lucide-react';
 

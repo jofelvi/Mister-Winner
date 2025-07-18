@@ -3,7 +3,7 @@
 import { useAuth } from '@/hooks/useAuth';
 import { Card, CardContent } from '@/components/shared/card/card';
 import { Button } from '@/components/shared/button/Button';
-import { Shield, AlertTriangle, ArrowLeft } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, Shield } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AdminLayout({
@@ -38,7 +38,8 @@ export default function AdminLayout({
               Acceso Denegado
             </h2>
             <p className="text-gray-600 mb-6">
-              No tienes permisos para acceder a esta sección. Solo los administradores pueden ver el panel de administración.
+              No tienes permisos para acceder a esta sección. Solo los
+              administradores pueden ver el panel de administración.
             </p>
             <div className="space-y-3">
               <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
@@ -58,9 +59,7 @@ export default function AdminLayout({
                 </Button>
               </Link>
               <Link href="/perfil" className="flex-1">
-                <Button className="w-full">
-                  Ver Mi Perfil
-                </Button>
+                <Button className="w-full">Ver Mi Perfil</Button>
               </Link>
             </div>
           </CardContent>
@@ -78,14 +77,14 @@ export default function AdminLayout({
           <Shield className="w-4 h-4" />
           <span>Panel de Administración</span>
           <span className="mx-2">•</span>
-          <span>Conectado como: {userProfile?.firstName} {userProfile?.lastName}</span>
+          <span>
+            Conectado como: {userProfile?.firstName} {userProfile?.lastName}
+          </span>
         </div>
       </div>
-      
+
       {/* Contenido principal */}
-      <main className="flex-1">
-        {children}
-      </main>
+      <main className="flex-1">{children}</main>
     </div>
   );
 }

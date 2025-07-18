@@ -16,20 +16,19 @@ import { formatFirebaseDate } from '@/utils/dateUtils';
 import raffleService from '@/services/raffleService';
 import winnerService from '@/services/winnerService';
 import {
-  Trophy,
-  Ticket,
-  Users,
-  DollarSign,
-  TrendingUp,
-  Clock,
-  Star,
-  Gift,
+  AlertCircle,
   Calendar,
+  CheckCircle,
+  ChevronRight,
+  Clock,
+  DollarSign,
   Eye,
   Plus,
-  ChevronRight,
-  AlertCircle,
-  CheckCircle,
+  Star,
+  Ticket,
+  TrendingUp,
+  Trophy,
+  Users,
   XCircle,
 } from 'lucide-react';
 
@@ -55,7 +54,7 @@ export default function AdminDashboard() {
     const fetchDashboardData = async () => {
       try {
         setLoading(true);
-        
+
         // Get raffles and stats
         const [raffles, stats, winners] = await Promise.all([
           raffleService.getAll(),
@@ -64,20 +63,32 @@ export default function AdminDashboard() {
         ]);
 
         // Get active raffles for upcoming draws
-        const activeRaffles = raffles.filter(raffle => raffle.status === 'active').slice(0, 3);
+        const activeRaffles = raffles
+          .filter(raffle => raffle.status === 'active')
+          .slice(0, 3);
         setUpcomingDraws(activeRaffles);
-        
+
         // Set dashboard stats
         setDashboardStats({
           totalRaffles: stats.total,
           activeRaffles: stats.active,
           completedRaffles: stats.completed,
-          totalParticipants: raffles.reduce((sum, raffle) => sum + raffle.numbersSold, 0),
+          totalParticipants: raffles.reduce(
+            (sum, raffle) => sum + raffle.numbersSold,
+            0
+          ),
           totalRevenue: stats.totalRevenue,
           thisMonthRevenue: 0, // TODO: Calculate this month's revenue
           pendingPayments: 0, // TODO: Get from payments service
-          totalPrizes: raffles.reduce((sum, raffle) => sum + raffle.prizes.length, 0),
-          averageParticipation: raffles.length > 0 ? raffles.reduce((sum, raffle) => sum + raffle.numbersSold, 0) / raffles.length : 0,
+          totalPrizes: raffles.reduce(
+            (sum, raffle) => sum + raffle.prizes.length,
+            0
+          ),
+          averageParticipation:
+            raffles.length > 0
+              ? raffles.reduce((sum, raffle) => sum + raffle.numbersSold, 0) /
+                raffles.length
+              : 0,
         });
 
         // Convert recent winners to recent activity
@@ -90,7 +101,6 @@ export default function AdminDashboard() {
           color: 'text-amber-600',
         }));
         setRecentWinners(recentActivity);
-
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
       } finally {
@@ -140,18 +150,15 @@ export default function AdminDashboard() {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             size="sm"
             onClick={() => router.push('/admin/reportes')}
           >
             <Eye className="w-4 h-4 mr-2" />
             Ver Reportes
           </Button>
-          <Button 
-            size="sm"
-            onClick={() => router.push('/admin/rifas')}
-          >
+          <Button size="sm" onClick={() => router.push('/admin/rifas')}>
             <Plus className="w-4 h-4 mr-2" />
             Nueva Rifa
           </Button>
@@ -164,9 +171,7 @@ export default function AdminDashboard() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">
-                  Total Rifas
-                </p>
+                <p className="text-sm font-medium text-gray-600">Total Rifas</p>
                 <p className="text-2xl font-bold text-gray-900 mt-1">
                   {dashboardStats.totalRaffles}
                 </p>
@@ -194,7 +199,9 @@ export default function AdminDashboard() {
                 </p>
                 <div className="flex items-center gap-1 mt-1">
                   <TrendingUp className="w-3 h-3 text-green-500" />
-                  <span className="text-xs text-green-600">+127 esta semana</span>
+                  <span className="text-xs text-green-600">
+                    +127 esta semana
+                  </span>
                 </div>
               </div>
               <div className="p-3 bg-green-50 rounded-full">
@@ -217,7 +224,8 @@ export default function AdminDashboard() {
                 <div className="flex items-center gap-1 mt-1">
                   <TrendingUp className="w-3 h-3 text-green-500" />
                   <span className="text-xs text-green-600">
-                    +${dashboardStats.thisMonthRevenue.toLocaleString()} este mes
+                    +${dashboardStats.thisMonthRevenue.toLocaleString()} este
+                    mes
                   </span>
                 </div>
               </div>
@@ -302,8 +310,8 @@ export default function AdminDashboard() {
                           />
                         </div>
                       </div>
-                      <Button 
-                        size="sm" 
+                      <Button
+                        size="sm"
                         variant="outline"
                         onClick={() => router.push(`/admin/rifas/${raffle.id}`)}
                       >
@@ -366,31 +374,31 @@ export default function AdminDashboard() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Button 
+            <Button
               className="h-20 flex-col gap-2"
               onClick={() => router.push('/admin/rifas')}
             >
               <Plus className="w-5 h-5" />
               <span>Crear Rifa</span>
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               className="h-20 flex-col gap-2"
               onClick={() => router.push('/admin/participantes')}
             >
               <Users className="w-5 h-5" />
               <span>Ver Participantes</span>
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               className="h-20 flex-col gap-2"
               onClick={() => router.push('/admin/pagos')}
             >
               <DollarSign className="w-5 h-5" />
               <span>Procesar Pagos</span>
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               className="h-20 flex-col gap-2"
               onClick={() => router.push('/admin/ganadores')}
             >

@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -15,10 +15,8 @@ export function middleware(request: NextRequest) {
   const isProtectedRoute = protectedRoutes.some(route =>
     pathname.startsWith(route)
   );
-  
-  const isAdminRoute = adminRoutes.some(route =>
-    pathname.startsWith(route)
-  );
+
+  const isAdminRoute = adminRoutes.some(route => pathname.startsWith(route));
 
   // Solo para rutas protegidas, dejamos que el componente ProtectedRoute maneje la lógica
   if (isProtectedRoute || isAdminRoute) {

@@ -27,8 +27,9 @@ class ParticipationService extends FirestoreService<UserParticipation> {
   async getUserParticipations(userId: string): Promise<UserParticipation[]> {
     try {
       const participations = await this.getWhere('userId', '==', userId);
-      return participations.sort((a, b) => 
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      return participations.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
     } catch (error) {
       console.error('Error fetching user participations:', error);
@@ -71,7 +72,9 @@ class ParticipationService extends FirestoreService<UserParticipation> {
    * @param participation - Participation data
    * @returns Promise<UserParticipation>
    */
-  async createParticipation(participation: Omit<UserParticipation, 'id' | 'createdAt' | 'updatedAt'>): Promise<UserParticipation> {
+  async createParticipation(
+    participation: Omit<UserParticipation, 'id' | 'createdAt' | 'updatedAt'>
+  ): Promise<UserParticipation> {
     try {
       const now = new Date().toISOString();
       const newParticipation = {
@@ -79,7 +82,7 @@ class ParticipationService extends FirestoreService<UserParticipation> {
         createdAt: now,
         updatedAt: now,
       };
-      
+
       return await this.create(newParticipation);
     } catch (error) {
       console.error('Error creating participation:', error);
@@ -94,15 +97,15 @@ class ParticipationService extends FirestoreService<UserParticipation> {
    * @returns Promise<UserParticipation>
    */
   async updateParticipationStatus(
-    participationId: string, 
+    participationId: string,
     status: 'active' | 'completed' | 'cancelled'
-  ): Promise<UserParticipation> {
+  ): Promise<void> {
     try {
       const updates = {
         status,
         updatedAt: new Date().toISOString(),
       };
-      
+
       return await this.update(participationId, updates);
     } catch (error) {
       console.error('Error updating participation status:', error);
