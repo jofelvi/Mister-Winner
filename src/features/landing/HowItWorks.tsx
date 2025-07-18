@@ -1,5 +1,5 @@
 'use client';
-import { Award, Hash, Ticket, CreditCard, Shield, Zap } from 'lucide-react';
+import { Award, CreditCard, Hash, Shield, Ticket, Zap } from 'lucide-react';
 
 // Add CSS for background pattern
 const backgroundPatternCSS = `
@@ -67,12 +67,15 @@ export const HowItWorks = () => {
   ];
 
   return (
-    <section id="como-funciona" className="relative w-full py-24 md:py-32 bg-gradient-to-b from-gray-50 via-white to-cyan-50/30 overflow-hidden">
+    <section
+      id="como-funciona"
+      className="relative w-full py-10 md:py-10 bg-gradient-to-b from-gray-50 via-white to-cyan-50/30 overflow-hidden"
+    >
       {/* Background decoration */}
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       <div className="absolute top-20 left-10 w-40 h-40 bg-gradient-to-br from-cyan-400/10 to-teal-400/10 rounded-full blur-3xl"></div>
       <div className="absolute bottom-20 right-10 w-56 h-56 bg-gradient-to-br from-teal-400/10 to-cyan-400/10 rounded-full blur-3xl"></div>
-      
+
       <div className="relative container mx-auto px-4 md:px-6">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -87,7 +90,8 @@ export const HowItWorks = () => {
             <span className="text-gray-900"> Mister Winner?</span>
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Participar en nuestras rifas es muy sencillo. Solo sigue estos 3 pasos y podrás ganar increíbles premios.
+            Participar en nuestras rifas es muy sencillo. Solo sigue estos 3
+            pasos y podrás ganar increíbles premios.
           </p>
         </div>
 
@@ -101,22 +105,30 @@ export const HowItWorks = () => {
                   <div className="absolute top-1/2 right-0 transform translate-x-1 -translate-y-1/2 w-2 h-2 bg-teal-400 rounded-full"></div>
                 </div>
               )}
-              
-              <div className={`relative bg-gradient-to-br ${step.bgColor} rounded-2xl p-8 border-2 ${step.borderColor} shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2 z-10`}>
+
+              <div
+                className={`relative bg-gradient-to-br ${step.bgColor} rounded-2xl p-8 border-2 ${step.borderColor} shadow-lg hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2 z-10`}
+              >
                 {/* Step number */}
                 <div className="absolute -top-4 -left-4 w-8 h-8 bg-gradient-to-r from-cyan-600 to-teal-600 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg">
                   {index + 1}
                 </div>
-                
+
                 {/* Icon */}
-                <div className={`w-16 h-16 bg-gradient-to-r ${step.color} rounded-2xl flex items-center justify-center mb-6 mx-auto text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                <div
+                  className={`w-16 h-16 bg-gradient-to-r ${step.color} rounded-2xl flex items-center justify-center mb-6 mx-auto text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                >
                   {step.icon}
                 </div>
-                
+
                 {/* Content */}
                 <div className="text-center">
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{step.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{step.description}</p>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">
+                    {step.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    {step.description}
+                  </p>
                 </div>
               </div>
             </div>
@@ -133,14 +145,17 @@ export const HowItWorks = () => {
               Somos la plataforma de rifas más confiable y transparente
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {features.map((feature, index) => (
-              <div key={index} className="flex items-center justify-center gap-3 p-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200">
-                <div className={`${feature.color}`}>
-                  {feature.icon}
-                </div>
-                <span className="font-medium text-gray-800">{feature.text}</span>
+              <div
+                key={index}
+                className="flex items-center justify-center gap-3 p-4 bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200"
+              >
+                <div className={`${feature.color}`}>{feature.icon}</div>
+                <span className="font-medium text-gray-800">
+                  {feature.text}
+                </span>
               </div>
             ))}
           </div>

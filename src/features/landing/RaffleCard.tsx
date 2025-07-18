@@ -1,8 +1,9 @@
 'use client';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { Raffle } from '@/types';
 import Card from '@/components/ui/Card';
-import { Calendar, ChevronRight, Gift, Users } from 'lucide-react';
+import { Calendar, ChevronRight, Gift, Users, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { formatFirebaseDate } from '@/utils/dateUtils';
 import Image from 'next/image';
@@ -10,6 +11,7 @@ import Image from 'next/image';
 export const RaffleCard = ({ raffle }: { raffle: Raffle }) => {
   const router = useRouter();
   const progress = (raffle.numbersSold / raffle.totalNumbers) * 100;
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handlePurchase = () => {
     // Navigate to specific raffle purchase page
@@ -17,19 +19,99 @@ export const RaffleCard = ({ raffle }: { raffle: Raffle }) => {
   };
 
   const mainPrize = raffle.prizes?.[0];
-  const hasImage = mainPrize?.imageUrl;
+  const prizesWithImages = raffle.prizes?.filter(prize => prize.imageUrl) || [];
+  const hasMultipleImages = prizesWithImages.length > 1;
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % prizesWithImages.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + prizesWithImages.length) % prizesWithImages.length);
+  };
 
   return (
     <Card className="group flex flex-col h-full bg-white rounded-2xl shadow-md hover:shadow-xl border border-gray-200 hover:border-cyan-300 transform hover:-translate-y-2 transition-all duration-300 overflow-hidden">
-      {/* Prize Image */}
+      {/* Prize Image(s) Slider */}
       <div className="relative h-48 bg-gradient-to-br from-cyan-50 to-teal-50 overflow-hidden">
-        {hasImage ? (
-          <Image
-            src={mainPrize.imageUrl || ''}
-            alt={mainPrize.name || 'Premio'}
-            fill
-            className="object-cover group-hover:scale-110 transition-transform duration-500"
-          />
+        {prizesWithImages.length > 0 ? (
+          <>
+            {/* Current Image */}
+            <div className="relative h-full">
+              <Image
+                src={prizesWithImages[currentImageIndex]?.imageUrl || ''}
+                alt={prizesWithImages[currentImageIndex]?.name || 'Premio'}
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              
+              {/* Prize position indicator */}
+              <div className="absolute top-3 left-3">
+                <div className="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center shadow-lg">
+                  <span className="text-sm font-bold text-white">
+                    {prizesWithImages[currentImageIndex]?.position}°
+                  </span>
+                </div>
+              </div>
+              
+              {/* Prize name overlay */}
+              <div className="absolute bottom-3 left-3 right-3">
+                <div className="bg-black/60 backdrop-blur-sm rounded-lg px-3 py-2">
+                  <p className="text-white text-sm font-medium truncate">
+                    {prizesWithImages[currentImageIndex]?.name}
+                  </p>
+                  <p className="text-white/80 text-xs">
+                    ${prizesWithImages[currentImageIndex]?.amount.toLocaleString()}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Navigation arrows - only show if multiple images */}
+            {hasMultipleImages && (
+              <>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    prevImage();
+                  }}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors z-10"
+                >
+                  <ChevronLeft className="w-4 h-4 text-gray-800" />
+                </button>
+                
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    nextImage();
+                  }}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors z-10"
+                >
+                  <ChevronRight className="w-4 h-4 text-gray-800" />
+                </button>
+              </>
+            )}
+
+            {/* Dots indicator - only show if multiple images */}
+            {hasMultipleImages && (
+              <div className="absolute bottom-3 right-3 flex gap-1">
+                {prizesWithImages.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCurrentImageIndex(index);
+                    }}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      index === currentImageIndex
+                        ? 'bg-white shadow-lg'
+                        : 'bg-white/50 hover:bg-white/75'
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
+          </>
         ) : (
           <div className="flex items-center justify-center h-full">
             <div className="w-16 h-16 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-2xl flex items-center justify-center">
@@ -46,12 +128,24 @@ export const RaffleCard = ({ raffle }: { raffle: Raffle }) => {
         </div>
 
         {/* Status indicator */}
-        <div className="absolute top-3 left-3">
+        <div className="absolute top-3 left-3 z-20">
           <div className="flex items-center gap-1 bg-green-500/90 backdrop-blur-sm text-white text-xs font-medium px-2 py-1 rounded-full">
             <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
             Activa
           </div>
         </div>
+
+        {/* Multiple images counter */}
+        {hasMultipleImages && (
+          <div className="absolute top-3 right-3 translate-y-8">
+            <div className="flex items-center gap-1 bg-white/90 backdrop-blur-sm text-cyan-700 text-xs font-medium px-2 py-1 rounded-full shadow-sm border border-cyan-200">
+              <Gift className="w-3 h-3" />
+              <span className="font-semibold">
+                {currentImageIndex + 1}/{prizesWithImages.length}
+              </span>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="flex flex-col flex-1 p-6">

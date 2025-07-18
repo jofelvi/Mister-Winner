@@ -1,14 +1,16 @@
 import {
+  addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
   setDoc,
+  updateDoc,
+  query,
+  where,
 } from 'firebase/firestore';
-import {db} from "@/services/firebase";
+import { db } from '@/services/firebase';
 
 class FirestoreService<T extends { id: string }> {
   constructor(private collectionName: string) {}
@@ -16,11 +18,11 @@ class FirestoreService<T extends { id: string }> {
   async getAll(): Promise<T[]> {
     try {
       const snapshot = await getDocs(collection(db, this.collectionName));
-      return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as T);
+      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }) as T);
     } catch (error) {
       console.error(
         `Error al obtener documentos de ${this.collectionName}:`,
-        error,
+        error
       );
       throw error;
     }
@@ -36,7 +38,24 @@ class FirestoreService<T extends { id: string }> {
     } catch (error) {
       console.error(
         `Error al obtener documento ${id} de ${this.collectionName}:`,
-        error,
+        error
+      );
+      throw error;
+    }
+  }
+
+  async getWhere(field: string, operator: any, value: any): Promise<T[]> {
+    try {
+      const q = query(
+        collection(db, this.collectionName),
+        where(field, operator, value)
+      );
+      const snapshot = await getDocs(q);
+      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }) as T);
+    } catch (error) {
+      console.error(
+        `Error al obtener documentos de ${this.collectionName} donde ${field} ${operator} ${value}:`,
+        error
       );
       throw error;
     }
@@ -49,13 +68,13 @@ class FirestoreService<T extends { id: string }> {
 
       const docRef = await addDoc(
         collection(db, this.collectionName),
-        sanitizedItem,
+        sanitizedItem
       );
       return { id: docRef.id, ...sanitizedItem } as T;
     } catch (error) {
       console.error(
         `Error al crear documento en ${this.collectionName}:`,
-        error,
+        error
       );
       throw error;
     }
@@ -72,7 +91,7 @@ class FirestoreService<T extends { id: string }> {
     } catch (error) {
       console.error(
         `Error al crear documento con ID ${id} en ${this.collectionName}:`,
-        error,
+        error
       );
       throw error;
     }
@@ -90,17 +109,17 @@ class FirestoreService<T extends { id: string }> {
       // Verificar que haya datos para actualizar
       if (Object.keys(sanitizedItem).length === 0) {
         console.warn(
-          `No hay datos válidos para actualizar el documento ${id} en ${this.collectionName}`,
+          `No hay datos válidos para actualizar el documento ${id} en ${this.collectionName}`
         );
         return;
       }
 
       const docRef = doc(db, this.collectionName, id);
-      await updateDoc(docRef, sanitizedItem);
+      await updateDoc(docRef, sanitizedItem as { [x: string]: any });
     } catch (error) {
       console.error(
         `Error al actualizar documento ${id} en ${this.collectionName}:`,
-        error,
+        error
       );
       throw error;
     }
@@ -113,7 +132,7 @@ class FirestoreService<T extends { id: string }> {
     } catch (error) {
       console.error(
         `Error al eliminar documento ${id} de ${this.collectionName}:`,
-        error,
+        error
       );
       throw error;
     }
@@ -121,8 +140,8 @@ class FirestoreService<T extends { id: string }> {
 
   // Método auxiliar para sanitizar datos antes de enviarlos a Firestore
   private sanitizeData<D extends Record<string, any>>(
-    data: D | null | undefined,
-  ): Record<string, any> {
+    data: D | null | undefined
+  ): Record<string, unknown> {
     if (data === null || data === undefined) {
       return {};
     }
@@ -146,7 +165,7 @@ class FirestoreService<T extends { id: string }> {
         }
         // Convertir arrays con objetos anidados
         else if (Array.isArray(value)) {
-          sanitized[key] = value.map((item) => {
+          sanitized[key] = value.map(item => {
             if (
               item !== null &&
               typeof item === 'object' &&
