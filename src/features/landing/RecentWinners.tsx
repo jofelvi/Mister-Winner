@@ -12,8 +12,8 @@ export const RecentWinners = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // eslint-disable-next-line react/display-name
   const getPrizeIcon = useMemo(
+    // eslint-disable-next-line react/display-name
     () => (position: number) => {
       switch (position) {
         case 1:

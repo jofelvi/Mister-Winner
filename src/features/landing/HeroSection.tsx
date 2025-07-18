@@ -8,13 +8,18 @@ export const HeroSection = () => {
   const router = useRouter();
 
   useEffect(() => {
-    // Add CSS for background pattern
+    // Add CSS for background pattern with Mac optimizations
     const backgroundPatternCSS = `
       .bg-grid-pattern {
         background-image: 
           linear-gradient(rgba(6, 182, 212, 0.05) 1px, transparent 1px),
           linear-gradient(90deg, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
         background-size: 50px 50px;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        will-change: transform;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
       }
     `;
 
@@ -24,7 +29,9 @@ export const HeroSection = () => {
 
     return () => {
       // Cleanup: remove style on unmount
-      document.head.removeChild(style);
+      if (document.head.contains(style)) {
+        document.head.removeChild(style);
+      }
     };
   }, []);
 
@@ -56,7 +63,14 @@ export const HeroSection = () => {
         </div>
 
         <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
-          <span className="bg-gradient-to-r from-cyan-600 via-teal-600 to-cyan-700 bg-clip-text text-transparent">
+          <span 
+            className="bg-gradient-to-r from-cyan-600 via-teal-600 to-cyan-700 bg-clip-text text-transparent"
+            style={{ 
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}
+          >
             La forma más fácil
           </span>
           <br />

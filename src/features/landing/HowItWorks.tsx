@@ -1,23 +1,35 @@
 'use client';
+import { useEffect } from 'react';
 import { Award, CreditCard, Hash, Shield, Ticket, Zap } from 'lucide-react';
 
-// Add CSS for background pattern
-const backgroundPatternCSS = `
-  .bg-grid-pattern {
-    background-image: 
-      linear-gradient(rgba(6, 182, 212, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
-    background-size: 50px 50px;
-  }
-`;
-
-if (typeof document !== 'undefined') {
-  const style = document.createElement('style');
-  style.textContent = backgroundPatternCSS;
-  document.head.appendChild(style);
-}
-
 export const HowItWorks = () => {
+  useEffect(() => {
+    // Add CSS for background pattern with Mac optimizations
+    const backgroundPatternCSS = `
+      .bg-grid-pattern-how {
+        background-image: 
+          linear-gradient(rgba(6, 182, 212, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+        background-size: 50px 50px;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        will-change: transform;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+      }
+    `;
+
+    const style = document.createElement('style');
+    style.textContent = backgroundPatternCSS;
+    document.head.appendChild(style);
+
+    return () => {
+      // Cleanup: remove style on unmount
+      if (document.head.contains(style)) {
+        document.head.removeChild(style);
+      }
+    };
+  }, []);
   const steps = [
     {
       icon: <Hash className="h-8 w-8" />,
@@ -72,7 +84,7 @@ export const HowItWorks = () => {
       className="relative w-full py-10 md:py-10 bg-gradient-to-b from-gray-50 via-white to-cyan-50/30 overflow-hidden"
     >
       {/* Background decoration */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+      <div className="absolute inset-0 bg-grid-pattern-how opacity-5"></div>
       <div className="absolute top-20 left-10 w-40 h-40 bg-gradient-to-br from-cyan-400/10 to-teal-400/10 rounded-full blur-3xl"></div>
       <div className="absolute bottom-20 right-10 w-56 h-56 bg-gradient-to-br from-teal-400/10 to-cyan-400/10 rounded-full blur-3xl"></div>
 
@@ -84,7 +96,14 @@ export const HowItWorks = () => {
             <span>Fácil y Rápido</span>
           </div>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            <span className="bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent">
+            <span 
+              className="bg-gradient-to-r from-cyan-600 to-teal-600 bg-clip-text text-transparent"
+              style={{ 
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}
+            >
               ¿Cómo Funciona
             </span>
             <span className="text-gray-900"> Mister Winner?</span>
