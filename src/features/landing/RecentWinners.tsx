@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo, useMemo } from 'react';
 import { Winner } from '@/types';
 import { Card } from '@/components/ui/card';
 import { Award, Calendar, Crown, Hash, Sparkles, Trophy } from 'lucide-react';
@@ -97,7 +97,7 @@ export const RecentWinners = () => {
     );
   }
 
-  const getPrizeIcon = (position: number) => {
+  const getPrizeIcon = useMemo(() => (position: number) => {
     switch (position) {
       case 1:
         return <Crown className="w-6 h-6" />;
@@ -108,9 +108,9 @@ export const RecentWinners = () => {
       default:
         return <Trophy className="w-6 h-6" />;
     }
-  };
+  }, []);
 
-  const getPrizeColors = (position: number) => {
+  const getPrizeColors = useMemo(() => (position: number) => {
     switch (position) {
       case 1:
         return {
@@ -141,7 +141,7 @@ export const RecentWinners = () => {
           glow: 'shadow-teal-200/50',
         };
     }
-  };
+  }, []);
 
   return (
     <section

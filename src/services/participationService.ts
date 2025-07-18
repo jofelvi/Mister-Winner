@@ -26,6 +26,7 @@ class ParticipationService extends FirestoreService<UserParticipation> {
    */
   async getUserParticipations(userId: string): Promise<UserParticipation[]> {
     try {
+      // Usar consulta específica por userId
       const participations = await this.getWhere('userId', '==', userId);
       return participations.sort(
         (a, b) =>

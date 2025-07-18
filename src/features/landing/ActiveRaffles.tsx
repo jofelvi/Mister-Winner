@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, memo } from 'react';
 import { Raffle } from '@/types';
 import { RaffleCard } from '@/features/landing/RaffleCard';
 import raffleService from '@/services/raffleService';
@@ -37,8 +37,10 @@ export const ActiveRaffles = () => {
     const fetchActiveRaffles = async () => {
       try {
         setLoading(true);
-        const activeRaffles = await raffleService.getActiveRaffles();
-        setRaffles(activeRaffles);
+        // Use paginated method to get only recent active raffles
+        const activeRaffles = await raffleService.getPaginated(6, 'createdAt', 'desc');
+        const filteredRaffles = activeRaffles.filter(raffle => raffle.status === 'active');
+        setRaffles(filteredRaffles);
         setError(null);
       } catch (err) {
         console.error('Error fetching active raffles:', err);

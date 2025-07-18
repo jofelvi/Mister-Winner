@@ -9,6 +9,11 @@ import {
   setDoc,
   updateDoc,
   where,
+  limit,
+  orderBy,
+  startAfter,
+  endBefore,
+  limitToLast,
 } from 'firebase/firestore';
 import { db } from '@/services/firebase';
 
@@ -22,6 +27,56 @@ class FirestoreService<T extends { id: string }> {
     } catch (error) {
       console.error(
         `Error al obtener documentos de ${this.collectionName}:`,
+        error
+      );
+      throw error;
+    }
+  }
+
+  // Método optimizado para obtener documentos con límite y paginación
+  async getPaginated(
+    pageSize: number = 10,
+    orderByField?: string,
+    orderDirection: 'asc' | 'desc' = 'asc',
+    startAfterDoc?: any
+  ): Promise<T[]> {
+    try {
+      let q = query(collection(db, this.collectionName));
+      
+      if (orderByField) {
+        q = query(q, orderBy(orderByField, orderDirection));
+      }
+      
+      if (startAfterDoc) {
+        q = query(q, startAfter(startAfterDoc));
+      }
+      
+      q = query(q, limit(pageSize));
+      
+      const snapshot = await getDocs(q);
+      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }) as T);
+    } catch (error) {
+      console.error(
+        `Error al obtener documentos paginados de ${this.collectionName}:`,
+        error
+      );
+      throw error;
+    }
+  }
+
+  // Método optimizado para obtener documentos recientes
+  async getRecent(limitCount: number = 10): Promise<T[]> {
+    try {
+      const q = query(
+        collection(db, this.collectionName),
+        orderBy('createdAt', 'desc'),
+        limit(limitCount)
+      );
+      const snapshot = await getDocs(q);
+      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }) as T);
+    } catch (error) {
+      console.error(
+        `Error al obtener documentos recientes de ${this.collectionName}:`,
         error
       );
       throw error;

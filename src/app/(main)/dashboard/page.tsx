@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import {
@@ -40,43 +40,58 @@ export default function DashboardPage() {
     recentWinners: [] as Winner[],
   });
 
-  useEffect(() => {
-    const fetchDashboardData = async () => {
-      try {
-        setLoading(true);
-        const [activeRaffles, raffleStats, winners] = await Promise.all([
-          raffleService.getActiveRaffles(),
-          raffleService.getRaffleStats(),
-          winnerService.getRecentWinners(3),
-        ]);
+  const fetchDashboardData = useCallback(async () => {
+    try {
+      setLoading(true);
+      
+      // Use Promise.allSettled to prevent one failure from blocking others
+      const [activeRafflesResult, raffleStatsResult, winnersResult] = await Promise.allSettled([
+        raffleService.getPaginated(10, 'createdAt', 'desc'), // Get recent active raffles efficiently
+        raffleService.getRaffleStats(),
+        winnerService.getRecentWinners(3),
+      ]);
 
-        // Get popular raffles (sort by numbers sold)
-        const popularRaffles = activeRaffles
-          .sort((a, b) => b.numbersSold - a.numbersSold)
-          .slice(0, 3);
+      // Extract successful results
+      const activeRaffles = activeRafflesResult.status === 'fulfilled' ? activeRafflesResult.value : [];
+      const raffleStats = raffleStatsResult.status === 'fulfilled' ? raffleStatsResult.value : { active: 0 };
+      const winners = winnersResult.status === 'fulfilled' ? winnersResult.value : [];
 
-        // Count user participations
-        const userParticipations = userProfile?.id
-          ? await participationService.getUserParticipationCount(userProfile.id)
-          : 0;
+      // Get popular raffles (sort by numbers sold) - optimize to only slice what's needed
+      const popularRaffles = activeRaffles
+        .filter(raffle => raffle.status === 'active') // Filter active only
+        .sort((a, b) => b.numbersSold - a.numbersSold)
+        .slice(0, 3);
 
-        setDashboardData({
-          activeRaffles: raffleStats.active,
-          popularRaffles,
-          userParticipations,
-          recentWinners: winners,
-        });
-      } catch (error) {
-        console.error('Error fetching dashboard data:', error);
-      } finally {
-        setLoading(false);
+      // Count user participations asynchronously if user exists
+      let userParticipations = 0;
+      if (userProfile?.id) {
+        try {
+          userParticipations = await participationService.getUserParticipationCount(userProfile.id);
+        } catch (error) {
+          console.warn('Error fetching user participation count:', error);
+        }
       }
-    };
 
-    fetchDashboardData();
+      setDashboardData({
+        activeRaffles: raffleStats.active,
+        popularRaffles,
+        userParticipations,
+        recentWinners: winners,
+      });
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+    } finally {
+      setLoading(false);
+    }
   }, [userProfile?.id]);
 
-  const stats = [
+  useEffect(() => {
+    if (userProfile?.id) {
+      fetchDashboardData();
+    }
+  }, [userProfile?.id, fetchDashboardData]);
+
+  const stats = useMemo(() => [
     {
       title: 'Rifas Activas',
       value: dashboardData.activeRaffles.toString(),
@@ -109,7 +124,7 @@ export default function DashboardPage() {
       color: 'text-purple-600',
       bgColor: 'bg-purple-50',
     },
-  ];
+  ], [dashboardData.activeRaffles, userProfile?.points, userProfile?.credits, dashboardData.userParticipations]);
 
   const getProgressPercentage = (sold: number, total: number) => {
     return Math.round((sold / total) * 100);

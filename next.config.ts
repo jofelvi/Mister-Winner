@@ -12,6 +12,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Performance optimizations
+  compress: true,
+  poweredByHeader: false,
+  // Enable static optimization
+  trailingSlash: false,
+  // Optimize bundling
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'react-icons'],
+  },
 };
 
 export default nextConfig;

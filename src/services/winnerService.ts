@@ -24,8 +24,8 @@ class WinnerService extends FirestoreService<Winner> {
 
   async getWinnersByRaffle(raffleId: string): Promise<Winner[]> {
     try {
-      const allWinners = await this.getAll();
-      return allWinners.filter(winner => winner.raffleId === raffleId);
+      // Usar consulta específica en lugar de getAll()
+      return await this.getWhere('raffleId', '==', raffleId);
     } catch (error) {
       console.error('Error getting winners by raffle:', error);
       throw error;
@@ -34,14 +34,8 @@ class WinnerService extends FirestoreService<Winner> {
 
   async getRecentWinners(limit: number = 5): Promise<Winner[]> {
     try {
-      const allWinners = await this.getAll();
-      return allWinners
-        .sort(
-          (a, b) =>
-            new Date(b.drawDate || '').getTime() -
-            new Date(a.drawDate || '').getTime()
-        )
-        .slice(0, limit);
+      // Usar el método optimizado getRecent en lugar de getAll
+      return await this.getRecent(limit);
     } catch (error) {
       console.error('Error getting recent winners:', error);
       throw error;
@@ -50,8 +44,8 @@ class WinnerService extends FirestoreService<Winner> {
 
   async getWinnersByUser(userId: string): Promise<Winner[]> {
     try {
-      const allWinners = await this.getAll();
-      return allWinners.filter(winner => winner.userId === userId);
+      // Usar consulta específica en lugar de getAll()
+      return await this.getWhere('userId', '==', userId);
     } catch (error) {
       console.error('Error getting winners by user:', error);
       throw error;
@@ -114,8 +108,8 @@ class WinnerService extends FirestoreService<Winner> {
 
   async getPendingDeliveries(): Promise<Winner[]> {
     try {
-      const allWinners = await this.getAll();
-      return allWinners.filter(winner => !winner.prizeDelivered);
+      // Usar consulta específica en lugar de getAll()
+      return await this.getWhere('prizeDelivered', '==', false);
     } catch (error) {
       console.error('Error getting pending deliveries:', error);
       throw error;
