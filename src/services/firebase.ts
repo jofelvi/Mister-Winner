@@ -4,20 +4,20 @@ import { getAuth } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-    apiKey: 'AIzaSyA9RlCTktrgCh-E_zex9CPJE1LfBbK6e4E',
-    authDomain: 'odinsysnext.firebaseapp.com',
-    projectId: 'odinsysnext',
-    storageBucket: 'odinsysnext.firebasestorage.app',
-    messagingSenderId: '480159663912',
-    appId: '1:480159663912:web:1a105ccf7dd364af54321d',
-    measurementId: 'G-PS3MTXSJFR',
+  apiKey: 'AIzaSyChri3lVZRU2D9zOas_a2_cc5J4NRdLSYo',
+  authDomain: 'mister-winner.firebaseapp.com',
+  projectId: 'mister-winner',
+  storageBucket: 'mister-winner.firebasestorage.app',
+  messagingSenderId: '419429221055',
+  appId: '1:419429221055:web:19cca534665272f1ac3c0a',
+  measurementId: 'G-HR2E0NLEHL',
 };
 let firebaseApp;
 
 if (!getApps().length) {
-    firebaseApp = initializeApp(firebaseConfig);
+  firebaseApp = initializeApp(firebaseConfig);
 } else {
-    firebaseApp = getApps()[0]; // if already initialized, use that one
+  firebaseApp = getApps()[0]; // if already initialized, use that one
 }
 // Initialize Firestore and Auth
 const db = getFirestore(firebaseApp);

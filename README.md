@@ -13,24 +13,21 @@ pnpm dev
 # or
 bun dev
 ```
+el tipado debe ser estrico evita usar any y ten como regla hacer codigo que respete siempre las reglas del eslint
+este esn un proyecto de rifas donde quiero implementar sorteos desde un panel admin, los usuarios puedes registrarse y logearse, 
+en la seccion privada el debe tener el loyout un sidebar que sea bonito
+
+hay que ajustar los estilos para hacer una web mas moderna
+
+    en la carpeta types estan los tipos del modelo necesarios pueden agregarse mas
+
+    Como regla de oro hay que mantener los princios SOLID y KISS y DRY aplicando Thinking react siempre
+
+
+los sorteos tienen una fecha de inicio tentativa ya que solo se le da una fecha de inicio si ya alcanzaron el 80 % del total de los numero, hay que tener seguridad para evitar que los numeros se vendan 2 veces
+
+en la carpeta de components y UI ya estan definidos los componentes base de la app para lo que es los formularios, y dentro de shared esta la implementacion de ellos, aca hay que ajustar los estilos de todos para que tengan el mismo estilo nuevo a implementar
+
+hay que crear un estilo agradable que inspire confianza y que transmita seguridad Recuerda la app se llama Mister winner inpirate con eso
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
