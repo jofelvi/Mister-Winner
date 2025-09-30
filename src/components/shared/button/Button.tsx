@@ -13,16 +13,15 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 const baseClasses =
   'inline-flex items-center justify-center rounded-xl font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none transform hover:scale-[1.02] active:scale-[0.98]';
 
-// Estilo actualizado con paleta cyan/blue-green
 const variantClasses: Record<NonNullable<ButtonProps['variant']>, string> = {
   default:
-    'bg-gradient-to-r from-cyan-600 to-teal-600 text-white hover:from-cyan-700 hover:to-teal-700 shadow-lg shadow-cyan-500/30 hover:shadow-xl hover:shadow-cyan-500/40 focus-visible:ring-cyan-500',
+    'bg-gradient-to-r from-primary-500 to-secondary-600 text-white hover:from-primary-600 hover:to-secondary-700 shadow-lg shadow-primary-500/30 hover:shadow-xl hover:shadow-primary-500/40 focus-visible:ring-primary-500',
   outline:
-    'border-2 border-cyan-600 text-cyan-600 hover:bg-cyan-50 hover:border-cyan-700 focus-visible:ring-cyan-500',
+    'border-2 border-primary-500 text-primary-600 hover:bg-primary-50 hover:border-primary-600 focus-visible:ring-primary-500',
   ghost:
-    'text-cyan-700 hover:bg-cyan-50 hover:text-cyan-800 focus-visible:ring-cyan-500',
+    'text-primary-600 hover:bg-primary-50 hover:text-primary-700 focus-visible:ring-primary-500',
   destructive:
-    'bg-gradient-to-r from-red-500 to-pink-600 text-white hover:from-red-600 hover:to-pink-700 shadow-lg shadow-red-500/30 hover:shadow-xl hover:shadow-red-500/40 focus-visible:ring-red-500',
+    'bg-gradient-to-r from-accent-500 to-accent-600 text-white hover:from-accent-600 hover:to-accent-700 shadow-lg shadow-accent-500/30 hover:shadow-xl hover:shadow-accent-500/40 focus-visible:ring-accent-500',
 };
 
 // Ajustes de tamaño modernos

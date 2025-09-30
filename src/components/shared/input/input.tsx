@@ -42,7 +42,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       // Base styling moderno con glassmorphism
       'flex h-11 w-full rounded-xl border bg-white/90 backdrop-blur-sm py-2 text-sm shadow-sm',
       'transition-all duration-200 ease-in-out',
-      'placeholder:text-cyan-400/60',
+      'placeholder:text-primary-400/60',
       'focus:outline-none focus:ring-2 focus:ring-offset-0',
       // File input styling
       'file:border-0 file:bg-transparent file:text-sm file:font-medium',
@@ -55,31 +55,31 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     const variantClasses = {
       default: cn(
-        'border-cyan-200',
-        'focus:border-cyan-500 focus:ring-cyan-500/30 focus:bg-white',
+        'border-primary-200',
+        'focus:border-primary-500 focus:ring-primary-500/30 focus:bg-white',
         hasError && 'border-red-300 focus:border-red-500 focus:ring-red-500/30'
       ),
       search: cn(
-        'border-cyan-200 bg-cyan-50/50',
-        'focus:border-cyan-500 focus:ring-cyan-500/30 focus:bg-white',
+        'border-primary-200 bg-primary-50/50',
+        'focus:border-primary-500 focus:ring-primary-500/30 focus:bg-white',
         hasError && 'border-red-300 focus:border-red-500 focus:ring-red-500/30'
       ),
       numeric: cn(
-        'text-right border-cyan-200',
-        'focus:border-cyan-500 focus:ring-cyan-500/30 focus:bg-white',
+        'text-right border-primary-200',
+        'focus:border-primary-500 focus:ring-primary-500/30 focus:bg-white',
         hasError && 'border-red-300 focus:border-red-500 focus:ring-red-500/30'
       ),
     };
 
     const labelClasses = cn(
       'block text-sm font-semibold mb-2',
-      hasError ? 'text-red-700' : 'text-cyan-700',
+      hasError ? 'text-red-700' : 'text-neutral-700',
       disabled && 'text-gray-400'
     );
 
     const iconClasses = cn(
       'w-4 h-4 transition-colors duration-200',
-      hasError ? 'text-red-400' : 'text-cyan-500',
+      hasError ? 'text-red-400' : 'text-primary-500',
       disabled && 'text-gray-300'
     );
 

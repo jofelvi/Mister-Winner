@@ -5,20 +5,20 @@ import { ReactNode } from 'react';
 interface GradientTextProps {
   children: ReactNode;
   className?: string;
-  gradient?: 'cyan-teal' | 'teal-cyan' | 'cyan-dark' | 'cyan-light';
+  gradient?: 'primary-secondary' | 'secondary-primary' | 'primary-tertiary' | 'tertiary-accent';
 }
 
 const gradientClasses = {
-  'cyan-teal': 'from-cyan-600 to-teal-600',
-  'teal-cyan': 'from-teal-600 to-cyan-600', 
-  'cyan-dark': 'from-cyan-700 to-teal-700',
-  'cyan-light': 'from-cyan-400 to-teal-400',
+  'primary-secondary': 'from-primary-500 to-secondary-600',
+  'secondary-primary': 'from-secondary-600 to-primary-500', 
+  'primary-tertiary': 'from-primary-500 to-tertiary-500',
+  'tertiary-accent': 'from-tertiary-500 to-accent-500',
 };
 
 export const GradientText = ({ 
   children, 
   className = '', 
-  gradient = 'cyan-teal' 
+  gradient = 'primary-secondary' 
 }: GradientTextProps) => {
   return (
     <span 

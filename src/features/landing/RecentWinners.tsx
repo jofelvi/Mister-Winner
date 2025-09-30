@@ -34,10 +34,10 @@ export const RecentWinners = () => {
       switch (position) {
         case 1:
           return {
-            bg: 'from-amber-400 to-yellow-500',
-            text: 'text-amber-600',
-            badge: 'bg-amber-100 text-amber-800',
-            glow: 'shadow-amber-200/50',
+            bg: 'from-tertiary-400 to-accent-500',
+            text: 'text-tertiary-600',
+            badge: 'bg-tertiary-100 text-tertiary-800',
+            glow: 'shadow-tertiary-200/50',
           };
         case 2:
           return {
@@ -55,10 +55,10 @@ export const RecentWinners = () => {
           };
         default:
           return {
-            bg: 'from-teal-400 to-cyan-500',
-            text: 'text-teal-600',
-            badge: 'bg-teal-100 text-teal-800',
-            glow: 'shadow-teal-200/50',
+            bg: 'from-primary-400 to-secondary-500',
+            text: 'text-primary-600',
+            badge: 'bg-primary-100 text-primary-800',
+            glow: 'shadow-primary-200/50',
           };
       }
     },
@@ -87,21 +87,21 @@ export const RecentWinners = () => {
     return (
       <section
         id="ganadores"
-        className="relative w-full py-15 md:py-15 bg-gradient-to-b from-white via-teal-50/30 to-cyan-50/30 overflow-hidden"
+        className="relative w-full py-15 md:py-15 bg-gradient-to-b from-white via-primary-50/30 to-secondary-50/30 overflow-hidden"
       >
         {/* Background decoration */}
-        <div className="absolute top-20 right-10 w-40 h-40 bg-gradient-to-br from-teal-400/10 to-cyan-400/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-10 w-56 h-56 bg-gradient-to-br from-cyan-400/10 to-teal-400/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 right-10 w-40 h-40 bg-gradient-to-br from-primary-400/10 to-secondary-400/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 left-10 w-56 h-56 bg-gradient-to-br from-secondary-400/10 to-primary-400/10 rounded-full blur-3xl"></div>
 
         <div className="relative container mx-auto px-4 md:px-6">
           {/* Section Header */}
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/60 backdrop-blur-sm rounded-full text-sm font-medium text-teal-700 border border-teal-200/50 shadow-sm mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/60 backdrop-blur-sm rounded-full text-sm font-medium text-primary-700 border border-primary-200/50 shadow-sm mb-6">
               <Sparkles className="w-4 h-4" />
               <span>Historias de Éxito</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              <span className="bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
                 Últimos Ganadores
               </span>
             </h2>
@@ -149,12 +149,12 @@ export const RecentWinners = () => {
     return (
       <section
         id="ganadores"
-        className="w-full py-24 md:py-32 bg-gradient-to-b from-white via-teal-50/30 to-cyan-50/30"
+        className="w-full py-24 md:py-32 bg-gradient-to-b from-white via-primary-50/30 to-secondary-50/30"
       >
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              <span className="bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
                 Últimos Ganadores
               </span>
             </h2>
@@ -188,7 +188,7 @@ export const RecentWinners = () => {
   return (
     <section
       id="ganadores"
-      className="relative w-full py-15 md:py-15 bg-gradient-to-b from-white via-teal-50/30 to-cyan-50/30 overflow-hidden"
+      className="relative w-full py-15 md:py-15 bg-gradient-to-b from-white via-primary-50/30 to-secondary-50/30 overflow-hidden"
     >
       {/* Background decoration */}
       <div className="absolute top-20 right-10 w-40 h-40 bg-gradient-to-br from-teal-400/10 to-cyan-400/10 rounded-full blur-3xl"></div>
@@ -202,7 +202,7 @@ export const RecentWinners = () => {
             <span>Historias de Éxito</span>
           </div>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            <span className="bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
               Últimos Ganadores
             </span>
           </h2>
@@ -224,7 +224,7 @@ export const RecentWinners = () => {
               <p className="text-gray-600 mb-6">
                 Pronto habrá ganadores increibles. ¡Sé el primero en ganar!
               </p>
-              <button className="px-6 py-3 bg-gradient-to-r from-teal-600 to-cyan-600 text-white rounded-lg hover:from-teal-700 hover:to-cyan-700 transition-all duration-200">
+              <button className="px-6 py-3 bg-gradient-to-r from-primary-600 to-secondary-600 text-white rounded-lg hover:from-primary-700 hover:to-secondary-700 transition-all duration-200">
                 Participar Ahora
               </button>
             </div>
@@ -235,7 +235,7 @@ export const RecentWinners = () => {
                 return (
                   <Card
                     key={winner.id}
-                    className={`group relative overflow-hidden bg-white/80 backdrop-blur-sm border-2 border-gray-200/50 hover:border-teal-300 shadow-lg hover:shadow-xl ${colors.glow} transition-all duration-300 transform hover:-translate-y-1`}
+                    className={`group relative overflow-hidden bg-white/80 backdrop-blur-sm border-2 border-gray-200/50 hover:border-primary-300 shadow-lg hover:shadow-xl ${colors.glow} transition-all duration-300 transform hover:-translate-y-1`}
                   >
                     {/* Winner badge */}
                     <div className="absolute top-4 right-4">
@@ -331,7 +331,7 @@ export const RecentWinners = () => {
                   Únete a miles de participantes y ten la oportunidad de ganar
                   increíbles premios.
                 </p>
-                <button className="px-8 py-4 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                <button className="px-8 py-4 bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-700 hover:to-secondary-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                   <span className="font-semibold">Ver Rifas Activas</span>
                 </button>
               </div>

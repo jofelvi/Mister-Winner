@@ -9,14 +9,14 @@ const Card = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
       className={cn(
         // Base styles with glassmorphism
         'relative overflow-hidden rounded-xl bg-white/90 backdrop-blur-sm shadow-lg',
-        // Subtle border with cyan accent
-        'border border-cyan-100/50',
+        // Subtle border with primary accent
+        'border border-primary-100/50',
         // Elevation and transitions
         'transition-all duration-300 ease-out',
         // Hover effects for interactive cards
-        'hover:shadow-xl hover:shadow-cyan-500/10 hover:-translate-y-1',
+        'hover:shadow-xl hover:shadow-primary-500/10 hover:-translate-y-1',
         // Focus styles
-        'focus-within:ring-2 focus-within:ring-cyan-500/30 focus-within:ring-offset-2',
+        'focus-within:ring-2 focus-within:ring-primary-500/30 focus-within:ring-offset-2',
         className
       )}
       {...props}
@@ -35,7 +35,7 @@ const CardHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
         // Typography hierarchy
         'space-y-2',
         // Subtle border bottom for separation
-        'border-b border-cyan-50',
+        'border-b border-primary-50',
         className
       )}
       {...props}
@@ -54,7 +54,7 @@ const CardTitle = forwardRef<
       // Material UI inspired typography
       'text-xl font-medium leading-tight tracking-tight',
       // Color scheme
-      'text-cyan-900',
+      'text-neutral-900',
       // Letter spacing for elegance
       'font-sans',
       className
@@ -74,7 +74,7 @@ const CardDescription = forwardRef<
       // Material UI secondary text
       'text-sm leading-relaxed',
       // Muted color
-      'text-cyan-600/80',
+      'text-neutral-600',
       // Line height for readability
       'mt-1',
       className
@@ -92,7 +92,7 @@ const CardContent = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
         // Consistent padding
         'px-6 py-4',
         // Typography
-        'text-cyan-800',
+        'text-neutral-800',
         className
       )}
       {...props}
@@ -111,9 +111,9 @@ const CardFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
         // Flex for button layouts
         'flex items-center justify-end gap-2',
         // Subtle top border
-        'border-t border-cyan-50',
+        'border-t border-primary-50',
         // Background variation
-        'bg-gradient-to-r from-cyan-50/30 to-teal-50/30',
+        'bg-gradient-to-r from-primary-50/30 to-secondary-50/30',
         className
       )}
       {...props}
@@ -130,14 +130,14 @@ const CardElevated = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
       className={cn(
         // Base card styles with glassmorphism
         'relative overflow-hidden rounded-xl bg-white/95 backdrop-blur-md',
-        // Enhanced elevation with cyan accents
-        'shadow-xl shadow-cyan-500/10 border border-cyan-200/50',
+        // Enhanced elevation with primary accents
+        'shadow-xl shadow-primary-500/10 border border-primary-200/50',
         // Smooth transitions
         'transition-all duration-300 ease-out',
         // Enhanced hover effects
-        'hover:shadow-2xl hover:shadow-cyan-500/20 hover:-translate-y-2',
+        'hover:shadow-2xl hover:shadow-primary-500/20 hover:-translate-y-2',
         // Focus styles
-        'focus-within:ring-2 focus-within:ring-cyan-500/30 focus-within:ring-offset-2',
+        'focus-within:ring-2 focus-within:ring-primary-500/30 focus-within:ring-offset-2',
         className
       )}
       {...props}

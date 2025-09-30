@@ -25,18 +25,18 @@ export function Badge({
 
   const variantClasses: Record<BadgeVariant, string> = {
     default:
-      'bg-gradient-to-r from-cyan-100 to-teal-100 text-cyan-800 hover:from-cyan-200 hover:to-teal-200 focus:ring-cyan-500/30',
+      'bg-gradient-to-r from-primary-100 to-secondary-100 text-primary-800 hover:from-primary-200 hover:to-secondary-200 focus:ring-primary-500/30',
     secondary:
       'bg-gradient-to-r from-slate-100 to-gray-100 text-slate-700 hover:from-slate-200 hover:to-gray-200 focus:ring-slate-500/30',
     destructive:
       'bg-gradient-to-r from-red-100 to-pink-100 text-red-800 hover:from-red-200 hover:to-pink-200 focus:ring-red-500/30',
     outline:
-      'border-2 border-cyan-200 text-cyan-700 hover:bg-cyan-50 hover:border-cyan-300 focus:ring-cyan-500/30',
+      'border-2 border-primary-200 text-primary-700 hover:bg-primary-50 hover:border-primary-300 focus:ring-primary-500/30',
     success:
       'bg-gradient-to-r from-emerald-100 to-green-100 text-emerald-800 hover:from-emerald-200 hover:to-green-200 focus:ring-emerald-500/30',
     warning:
-      'bg-gradient-to-r from-amber-100 to-yellow-100 text-amber-800 hover:from-amber-200 hover:to-yellow-200 focus:ring-amber-500/30',
-    info: 'bg-gradient-to-r from-cyan-100 to-blue-100 text-cyan-800 hover:from-cyan-200 hover:to-blue-200 focus:ring-cyan-500/30',
+      'bg-gradient-to-r from-tertiary-100 to-accent-100 text-tertiary-800 hover:from-tertiary-200 hover:to-accent-200 focus:ring-tertiary-500/30',
+    info: 'bg-gradient-to-r from-primary-100 to-secondary-100 text-primary-800 hover:from-primary-200 hover:to-secondary-200 focus:ring-primary-500/30',
   };
 
   return (

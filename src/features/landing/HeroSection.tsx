@@ -12,8 +12,8 @@ export const HeroSection = () => {
     const backgroundPatternCSS = `
       .bg-grid-pattern {
         background-image: 
-          linear-gradient(rgba(6, 182, 212, 0.05) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(6, 182, 212, 0.05) 1px, transparent 1px);
+          linear-gradient(rgba(35, 139, 243, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(35, 139, 243, 0.05) 1px, transparent 1px);
         background-size: 50px 50px;
         -webkit-transform: translateZ(0);
         transform: translateZ(0);
@@ -48,15 +48,15 @@ export const HeroSection = () => {
     }
   };
   return (
-    <section className="relative w-full py-16 md:py-24 bg-gradient-to-br from-gray-50 via-cyan-50/30 to-teal-50/30 overflow-hidden">
+    <section className="relative w-full py-16 md:py-24 bg-gradient-to-br from-gray-50 via-primary-50/30 to-secondary-50/30 overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-      <div className="absolute top-10 right-10 w-72 h-72 bg-gradient-to-br from-cyan-400/20 to-teal-400/20 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-10 left-10 w-56 h-56 bg-gradient-to-br from-teal-400/20 to-cyan-400/20 rounded-full blur-3xl"></div>
+      <div className="absolute top-10 right-10 w-72 h-72 bg-gradient-to-br from-primary-400/20 to-secondary-400/20 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-10 left-10 w-56 h-56 bg-gradient-to-br from-secondary-400/20 to-primary-400/20 rounded-full blur-3xl"></div>
 
       <div className="relative container mx-auto px-4 md:px-6 text-center">
         <div className="mb-4">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/60 backdrop-blur-sm rounded-full text-sm font-medium text-cyan-700 border border-cyan-200/50 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/60 backdrop-blur-sm rounded-full text-sm font-medium text-primary-700 border border-primary-200/50 shadow-sm">
             <Ticket className="w-4 h-4" />
             <span>Bienvenido a Mister Winner</span>
           </div>
@@ -64,7 +64,7 @@ export const HeroSection = () => {
 
         <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
           <span 
-            className="bg-gradient-to-r from-cyan-600 via-teal-600 to-cyan-700 bg-clip-text text-transparent"
+            className="bg-gradient-to-r from-primary-600 via-secondary-600 to-primary-700 bg-clip-text text-transparent"
             style={{ 
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
@@ -85,7 +85,7 @@ export const HeroSection = () => {
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Button
-            className="group px-8 py-4 text-lg bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            className="group px-8 py-4 text-lg bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-700 hover:to-secondary-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
             onClick={handleViewRaffles}
           >
             <Ticket className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
@@ -93,7 +93,7 @@ export const HeroSection = () => {
           </Button>
           <Button
             variant="ghost"
-            className="px-8 py-4 text-lg border-2 border-gray-300 hover:border-cyan-400 hover:bg-cyan-50 text-gray-700 hover:text-cyan-700 rounded-xl transition-all duration-300"
+            className="px-8 py-4 text-lg border-2 border-gray-300 hover:border-primary-400 hover:bg-primary-50 text-gray-700 hover:text-primary-700 rounded-xl transition-all duration-300"
             onClick={handleLearnMore}
           >
             Aprende Más

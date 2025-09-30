@@ -4,13 +4,13 @@ import Link from 'next/link';
 import { IoArrowBackOutline } from 'react-icons/io5';
 
 type IconVariant =
-  | 'indigo'
-  | 'blue'
+  | 'primary'
+  | 'secondary'
+  | 'tertiary'
   | 'green'
   | 'red'
   | 'gray'
-  | 'purple'
-  | 'black';
+  | 'neutral';
 type IconSize = 'sm' | 'md' | 'lg' | 'xl';
 
 interface BackIconProps {
@@ -25,13 +25,13 @@ interface BackIconProps {
 }
 
 const variantClasses: Record<IconVariant, string> = {
-  indigo: 'text-indigo-600 hover:text-indigo-800',
-  blue: 'text-blue-600 hover:text-blue-800',
+  primary: 'text-primary-600 hover:text-primary-800',
+  secondary: 'text-secondary-600 hover:text-secondary-800',
+  tertiary: 'text-tertiary-600 hover:text-tertiary-800',
   green: 'text-green-600 hover:text-green-800',
   red: 'text-red-600 hover:text-red-800',
   gray: 'text-gray-600 hover:text-gray-800',
-  purple: 'text-purple-600 hover:text-purple-800',
-  black: 'text-gray-800 hover:text-black',
+  neutral: 'text-neutral-800 hover:text-neutral-900',
 };
 
 const sizeClasses: Record<IconSize, { icon: string; container: string }> = {

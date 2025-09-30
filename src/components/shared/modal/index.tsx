@@ -44,10 +44,10 @@ const Modal: React.FC<ModalProps> = ({
   const mergeClassName = cn(
     // Base styles con glassmorphism
     'bg-white/95 backdrop-blur-xl rounded-2xl relative max-w-md w-full mx-4',
-    // Sombra con acentos cyan
-    'shadow-2xl shadow-cyan-500/10',
+    // Sombra con acentos primary
+    'shadow-2xl shadow-primary-500/10',
     // Borde con gradiente sutil
-    'border border-cyan-100/50',
+    'border border-primary-100/50',
     // Animación y transición
     'transform transition-all duration-300 ease-out',
     'animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-4',

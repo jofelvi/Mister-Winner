@@ -21,6 +21,8 @@ import {
   User,
   X,
 } from 'lucide-react';
+import Image from 'next/image';
+import logo from '../../assets/logo.png';
 
 interface SidebarProps {
   className?: string;
@@ -102,30 +104,31 @@ export default function Sidebar({ className }: SidebarProps) {
   return (
     <div
       className={cn(
-        'h-screen bg-gradient-to-b from-cyan-900 via-cyan-800 to-teal-900 text-white transition-all duration-300',
+        'h-screen bg-gradient-to-b from-secondary-900 via-secondary-800 to-primary-900 text-white transition-all duration-300',
         isCollapsed ? 'w-16' : 'w-64',
         className
       )}
     >
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-cyan-700/50">
+      <div className="flex items-center justify-between p-4 border-b border-secondary-700/50">
         <div
           className={cn(
             'flex items-center gap-3 transition-opacity duration-300',
             isCollapsed && 'opacity-0'
           )}
         >
-          <div className="w-8 h-8 bg-gradient-to-br from-amber-400 to-amber-600 rounded-lg flex items-center justify-center shadow-lg">
+          <div className="w-8 h-8 bg-gradient-to-br from-tertiary-400 to-tertiary-600 rounded-lg flex items-center justify-center shadow-lg">
             <Trophy className="w-5 h-5 text-white" />
+            <Image src={logo} alt={'Mister Winner'} />
           </div>
           <div>
             <h1 className="font-bold text-lg">Mister Winner</h1>
-            <p className="text-xs text-cyan-300">Tu próxima victoria</p>
+            <p className="text-xs text-primary-300">Tu próxima victoria</p>
           </div>
         </div>
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="p-2 hover:bg-cyan-700/50 rounded-lg transition-colors"
+          className="p-2 hover:bg-secondary-700/50 rounded-lg transition-colors"
         >
           {isCollapsed ? (
             <Menu className="w-4 h-4" />
@@ -136,14 +139,14 @@ export default function Sidebar({ className }: SidebarProps) {
       </div>
 
       {/* User Profile */}
-      <div className="p-4 border-b border-cyan-700/50">
+      <div className="p-4 border-b border-secondary-700/50">
         <div
           className={cn(
             'flex items-center gap-3 transition-opacity duration-300',
             isCollapsed && 'opacity-0'
           )}
         >
-          <div className="w-10 h-10 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-full flex items-center justify-center">
+          <div className="w-10 h-10 bg-gradient-to-br from-primary-400 to-secondary-500 rounded-full flex items-center justify-center">
             <User className="w-5 h-5 text-white" />
           </div>
           <div className="flex-1 min-w-0">
@@ -153,15 +156,15 @@ export default function Sidebar({ className }: SidebarProps) {
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-1">
                 {userProfile?.role === 'admin' && (
-                  <Crown className="w-3 h-3 text-amber-400" />
+                  <Crown className="w-3 h-3 text-tertiary-400" />
                 )}
                 {userProfile?.role === 'agent' && (
-                  <Shield className="w-3 h-3 text-blue-400" />
+                  <Shield className="w-3 h-3 text-primary-400" />
                 )}
                 {userProfile?.role === 'user' && (
                   <Star className="w-3 h-3 text-green-400" />
                 )}
-                <span className="text-xs text-cyan-300 capitalize">
+                <span className="text-xs text-primary-300 capitalize">
                   {userProfile?.role}
                 </span>
               </div>
@@ -173,16 +176,16 @@ export default function Sidebar({ className }: SidebarProps) {
           <div className="mt-3 flex items-center justify-between text-xs">
             <div className="flex items-center gap-4">
               <div className="text-center">
-                <p className="text-amber-400 font-semibold">
+                <p className="text-tertiary-400 font-semibold">
                   {userProfile?.points || 0}
                 </p>
-                <p className="text-cyan-300">Puntos</p>
+                <p className="text-primary-300">Puntos</p>
               </div>
               <div className="text-center">
                 <p className="text-green-400 font-semibold">
                   {userProfile?.credits || 0}
                 </p>
-                <p className="text-cyan-300">Créditos</p>
+                <p className="text-primary-300">Créditos</p>
               </div>
             </div>
           </div>
@@ -200,9 +203,9 @@ export default function Sidebar({ className }: SidebarProps) {
                 href={item.href}
                 className={cn(
                   'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200',
-                  'hover:bg-cyan-700/50 hover:translate-x-1',
+                  'hover:bg-secondary-700/50 hover:translate-x-1',
                   isActive &&
-                    'bg-gradient-to-r from-cyan-600 to-teal-600 shadow-lg shadow-cyan-500/25',
+                    'bg-gradient-to-r from-primary-600 to-secondary-600 shadow-lg shadow-primary-500/25',
                   isCollapsed && 'justify-center'
                 )}
               >
@@ -220,7 +223,7 @@ export default function Sidebar({ className }: SidebarProps) {
                       <p
                         className={cn(
                           'text-xs',
-                          isActive ? 'text-cyan-100' : 'text-cyan-400'
+                          isActive ? 'text-primary-100' : 'text-primary-400'
                         )}
                       >
                         {item.description}
@@ -240,7 +243,7 @@ export default function Sidebar({ className }: SidebarProps) {
             <>
               <div
                 className={cn(
-                  'px-3 py-2 text-xs font-semibold text-cyan-400 uppercase tracking-wider',
+                  'px-3 py-2 text-xs font-semibold text-primary-400 uppercase tracking-wider',
                   isCollapsed && 'hidden'
                 )}
               >
@@ -254,9 +257,9 @@ export default function Sidebar({ className }: SidebarProps) {
                     href={item.href}
                     className={cn(
                       'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200',
-                      'hover:bg-cyan-700/50 hover:translate-x-1',
+                      'hover:bg-secondary-700/50 hover:translate-x-1',
                       isActive &&
-                        'bg-gradient-to-r from-cyan-600 to-teal-600 shadow-lg shadow-cyan-500/25',
+                        'bg-gradient-to-r from-primary-600 to-secondary-600 shadow-lg shadow-primary-500/25',
                       isCollapsed && 'justify-center'
                     )}
                   >
@@ -277,7 +280,7 @@ export default function Sidebar({ className }: SidebarProps) {
                           <p
                             className={cn(
                               'text-xs',
-                              isActive ? 'text-cyan-100' : 'text-cyan-400'
+                              isActive ? 'text-primary-100' : 'text-primary-400'
                             )}
                           >
                             {item.description}
@@ -297,13 +300,13 @@ export default function Sidebar({ className }: SidebarProps) {
       </nav>
 
       {/* Footer */}
-      <div className="p-4 border-t border-cyan-700/50">
+      <div className="p-4 border-t border-secondary-700/50">
         <div className="space-y-2">
           <Link
             href="/configuracion"
             className={cn(
               'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200',
-              'hover:bg-cyan-700/50',
+              'hover:bg-secondary-700/50',
               isCollapsed && 'justify-center'
             )}
           >
